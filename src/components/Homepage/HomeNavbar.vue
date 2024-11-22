@@ -28,7 +28,7 @@ export default {
           </form>
 
           <button class="btn btn-outline-dark border-dark-subtle" type="submit">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="http://127.0.0.1:8000/login">
                 <i class="fa-solid fa-house text-warning me-2"></i>
                 Registrati o accedi
             </a>
