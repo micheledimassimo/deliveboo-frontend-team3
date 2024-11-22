@@ -6,7 +6,7 @@
   3) Utilizzo del componente
 */
 // 1) Importazione del componente
-import AppHeader from './components/AppHeader.vue';
+import HomeHeader from './components/Homepage/HomeHeader.vue';
 
 export default {
   data() {
@@ -16,7 +16,7 @@ export default {
   },
   // 2) Dichiarazione del componente
   components: {
-    AppHeader
+    HomeHeader,
   },
   methods: {
     incrementCount() {
@@ -27,20 +27,16 @@ export default {
 </script>
 
 <template>
+
   <div>
     <!-- 3) Utilizzo del componente -->
-    <AppHeader />
-    
-    <main>
-      <button class="btn btn-primary" @click="incrementCount()">
-        {{ count }}
-      </button>
-    </main>
+    <HomeHeader />
   </div>
+
 </template>
 
 <style lang="scss">
-@use 'assets/scss/main' as *;
-// Import all of Bootstrap's CSS
-@import "bootstrap/scss/bootstrap";
+  @use 'assets/scss/main' as *;
+  // Import all of Bootstrap's CSS
+  @import "bootstrap/scss/bootstrap";
 </style>
