@@ -53,34 +53,36 @@
 
         <div class="container mt-5">
 
-          <div class="row">
+            <div class="row">
 
-            <div class="col-3 mb-4 d-flex" v-for="restaurant in restaurants" :key="restaurant.id">
+                <div class="col-3 mb-4 d-flex" v-for="restaurant in restaurants" :key="restaurant.id">
 
-              <!-- shadow-sm -->
-              <div class="card rounded-top-5 p-2 align-self-stretch">
-                <!-- <img class="card-img-top rounded rounded-top-5" :src="src" :alt="article.title"> -->
-                <img class="card-img-top rounded rounded-top-5" :src="restaurant.img" :alt="restaurant.restaurant_name">
+                    <!-- shadow-sm -->
+                    <div class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
+                        <img class="card-img-top rounded rounded-top-5" :src="src" alt="bla">
+                        <!-- <img class="card-img-top rounded rounded-top-5" :src="restaurant.img" :alt="restaurant.restaurant_name"> -->
 
-                <div class="card-body text-center">
-                    <h6 class="card-title mb-3">{{ restaurant.restaurant_name }}</h6>
+                        <div class="card-body text-center">
+                            <h6 class="card-title mb-3 fw-bold">{{ restaurant.restaurant_name }}</h6>
 
-                    <div class="mb-3">
-                        <span v-for="typology in restaurant.typologies" :key="typology.id" class="badge rounded-pill text-bg-warning mb-2 mx-2">
-                            {{ typology.typology_name }}
-                        </span>
+                            <div>
+                                <span v-for="typology in restaurant.typologies" :key="typology.id" class="badge rounded-pill text-bg-warning mb-2 mx-1">
+                                    {{ typology.typology_name }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <a href="#" class="btn btn-outline-warning text-black rounded-pill mb-3">
+                                Menu
+                            </a>
+                        </div>
+
                     </div>
 
-                    <a href="#" class="btn btn-outline-warning text-black rounded-pill">
-                        Menu
-                    </a>
                 </div>
 
-              </div>
-
             </div>
-
-          </div>
 
         </div>
 
