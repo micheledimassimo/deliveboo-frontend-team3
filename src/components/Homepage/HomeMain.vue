@@ -53,7 +53,7 @@
                     })
             },
         }
-  }
+    }
 </script>
 
 <template>
@@ -70,8 +70,12 @@
 
                     <!-- shadow-sm -->
                     <div class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
+
                         <img class="card-img-top rounded rounded-top-5" :src="src" alt="bla">
-                        <!-- <img class="card-img-top rounded rounded-top-5" :src="restaurant.img" :alt="restaurant.restaurant_name"> -->
+
+                        <!-- <img class="card-img-top rounded rounded-top-5"
+                            :src="restaurant.img" 
+                            :alt="restaurant.restaurant_name"> -->
 
                         <div class="card-body text-center">
                             <h6 class="card-title mb-3 fw-bold">{{ restaurant.restaurant_name }}</h6>
