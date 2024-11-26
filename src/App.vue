@@ -8,6 +8,7 @@
 // 1) Importazione del componente
 import HomeHeader from './components/Homepage/HomeHeader.vue';
 import HomeMain from './components/Homepage/HomeMain.vue';
+import HomeFooter from './components/Homepage/HomeFooter.vue';
 
 export default {
   data() {
@@ -19,6 +20,7 @@ export default {
   components: {
     HomeHeader,
     HomeMain,
+    HomeFooter
   },
   methods: {
 
@@ -32,6 +34,7 @@ export default {
     <!-- 3) Utilizzo del componente -->
     <HomeHeader />
     <HomeMain />
+    <HomeFooter />
   </div>
 
 </template>
