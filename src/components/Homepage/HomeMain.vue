@@ -78,7 +78,7 @@
             </a>
         </button> -->
 
-        <div class="container mt-5">
+        <div class="container-sm mt-5">
 
             <div class="row">
 

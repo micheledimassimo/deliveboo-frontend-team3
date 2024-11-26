@@ -20,7 +20,7 @@ export default {
 
   <HomeNavbar />
 
-  <div class="container my-5">
+  <div class="container-sm my-5">
 
     <div class="row gx-3">
 
