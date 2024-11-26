@@ -14,17 +14,8 @@
         },
         mounted(){
             this.getRestaurants();
-            // this.getRestaurantSlug();
         },
         methods: {
-            //   getRestaurantSlug(){
-            //     axios
-            //         .get('http://127.0.0.1:8000/api/restaurants' + '/' + this.slug)
-            //         .then(res => {
-            //             this.restaurants = res.data.data.restaurants.data;
-            //             console.log(this.slug)
-            //         });
-            //   }, 
             getRestaurants(){
                 axios
                     .get('http://127.0.0.1:8000/api/restaurants')
@@ -71,13 +62,6 @@
    
     <main id="main">
 
-        <!-- <button>
-            <a class="nav-link" :href="getRestaurantSlug()">
-                <i class="fa-solid fa-house text-warning me-2"></i>
-                vai alla tua dashboard
-            </a>
-        </button> -->
-
         <div class="container mt-5">
 
             <div class="row">
@@ -114,14 +98,20 @@
             <!-- bottoni pagine precedenti e successive -->
             <div class="d-flex justify-content-center">
                 <div>
-                    <a @click="ToPrevPage()" href="#" class="btn btn-outline-warning rounded-circle mx-2">
+                    <button @click="ToPrevPage()"
+                        :disabled="prevPage == null || clickedButton"
+                        class="btn btn-outline-warning rounded-circle mx-2"
+                        type="button">
                         <i class="fa-solid fa-chevron-left"></i>
-                    </a>
+                    </button>
                 </div>
                 <div>
-                    <a @click="ToNextPage()" href="#" class="btn btn-outline-warning rounded-circle mx-2">
+                    <button @click="ToNextPage()"
+                        :disabled="nextPage == null || clickedButton"
+                        class="btn btn-outline-warning rounded-circle mx-2"
+                        type="button">
                         <i class="fa-solid fa-chevron-right"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
 
