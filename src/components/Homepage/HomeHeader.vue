@@ -22,7 +22,7 @@ export default {
 
   <div class="container-sm my-5">
 
-    <div class="row  ">
+    <div class="row  align-items-center">
 
       <div class="col-md-5 col-sm-12 pb-3">
         <h2 class="mb-4">
