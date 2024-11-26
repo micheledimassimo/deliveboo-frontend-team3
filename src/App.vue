@@ -7,21 +7,21 @@
 */
 // 1) Importazione del componente
 import HomeHeader from './components/Homepage/HomeHeader.vue';
+import HomeMain from './components/Homepage/HomeMain.vue';
 
 export default {
   data() {
     return { 
-      count: 0
+
     }
   },
   // 2) Dichiarazione del componente
   components: {
     HomeHeader,
+    HomeMain,
   },
   methods: {
-    incrementCount() {
-      this.count++;
-    }
+
   }
 }
 </script>
@@ -31,6 +31,7 @@ export default {
   <div>
     <!-- 3) Utilizzo del componente -->
     <HomeHeader />
+    <HomeMain />
   </div>
 
 </template>
