@@ -13,9 +13,8 @@ export default {
 </script>
 
 <template>
-  <footer class="container py-5">
+  <footer class="container-sm py-5">
     <div class="d-flex justify-content-between">
-      
         <ul v-for="(link,i) in store.footerLinks" :key="i">
 
           <h3>
@@ -37,7 +36,7 @@ export default {
 <style lang="scss" scoped>
 @use '../../assets/scss/partials/variables' as *;
 
-.container {
+.container-sm {
   div {
     ul {
       li {

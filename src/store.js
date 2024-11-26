@@ -33,7 +33,7 @@ export const store = reactive({
                     nameLink: 'Termini & Condizioni'
                 },
                 {
-                    nameLink: 'Indormativa sulla privacy'
+                    nameLink: 'Informativa sulla privacy'
                 },
                 {
                     nameLink: 'Cookies'
