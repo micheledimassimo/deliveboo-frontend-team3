@@ -14,17 +14,8 @@
         },
         mounted(){
             this.getRestaurants();
-            // this.getRestaurantSlug();
         },
         methods: {
-            //   getRestaurantSlug(){
-            //     axios
-            //         .get('http://127.0.0.1:8000/api/restaurants' + '/' + this.slug)
-            //         .then(res => {
-            //             this.restaurants = res.data.data.restaurants.data;
-            //             console.log(this.slug)
-            //         });
-            //   }, 
             getRestaurants(){
                 axios
                     .get('http://127.0.0.1:8000/api/restaurants')
@@ -62,7 +53,7 @@
                     })
             },
         }
-  }
+    }
 </script>
 
 <template>
@@ -70,13 +61,6 @@
   <div>
    
     <main id="main">
-
-        <!-- <button>
-            <a class="nav-link" :href="getRestaurantSlug()">
-                <i class="fa-solid fa-house text-warning me-2"></i>
-                vai alla tua dashboard
-            </a>
-        </button> -->
 
         <div class="container mt-5">
 
@@ -86,8 +70,12 @@
 
                     <!-- shadow-sm -->
                     <div class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
+
                         <img class="card-img-top rounded rounded-top-5" :src="src" alt="bla">
-                        <!-- <img class="card-img-top rounded rounded-top-5" :src="restaurant.img" :alt="restaurant.restaurant_name"> -->
+
+                        <!-- <img class="card-img-top rounded rounded-top-5"
+                            :src="restaurant.img" 
+                            :alt="restaurant.restaurant_name"> -->
 
                         <div class="card-body text-center">
                             <h6 class="card-title mb-3 fw-bold">{{ restaurant.restaurant_name }}</h6>
@@ -114,14 +102,20 @@
             <!-- bottoni pagine precedenti e successive -->
             <div class="d-flex justify-content-center">
                 <div>
-                    <a @click="ToPrevPage()" href="#" class="btn btn-outline-warning rounded-circle mx-2">
+                    <button @click="ToPrevPage()"
+                        :disabled="prevPage == null || clickedButton"
+                        class="btn btn-outline-warning rounded-circle mx-2"
+                        type="button">
                         <i class="fa-solid fa-chevron-left"></i>
-                    </a>
+                    </button>
                 </div>
                 <div>
-                    <a @click="ToNextPage()" href="#" class="btn btn-outline-warning rounded-circle mx-2">
+                    <button @click="ToNextPage()"
+                        :disabled="nextPage == null || clickedButton"
+                        class="btn btn-outline-warning rounded-circle mx-2"
+                        type="button">
                         <i class="fa-solid fa-chevron-right"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
 
