@@ -14,22 +14,21 @@
         },
         mounted(){
             this.getRestaurants();
-            // this.getRestaurantSlug();
         },
         methods: {
-            //   getRestaurantSlug(){
-            //     axios
-            //         .get('http://127.0.0.1:8000/api/restaurants' + '/' + this.slug)
-            //         .then(res => {
-            //             this.restaurants = res.data.data.restaurants.data;
-            //             console.log(this.slug)
-            //         });
-            //   }, 
             getRestaurants(){
                 axios
                     .get('http://127.0.0.1:8000/api/restaurants')
                     .then(res => {
                         this.restaurants = res.data.data.restaurants.data;
+                        
+                        this.restaurants.forEach(restaurant => {
+                            if (restaurant.img) {
+                                restaurant.img = `http://127.0.0.1:8000/storage/${restaurant.img}`;
+                            } else {
+                                restaurant.img = this.src;
+                            }
+                        });
                         
                         this.prevPage = res.data.data.restaurants.prev_page_url;
                         this.nextPage = res.data.data.restaurants.next_page_url;
@@ -41,6 +40,14 @@
                     .get(this.prevPage)
                     .then((res)=>{
                         this.restaurants = res.data.data.restaurants.data;
+
+                        this.restaurants.forEach(restaurant => {
+                            if (restaurant.img) {
+                                restaurant.img = `http://127.0.0.1:8000/storage/${restaurant.img}`;
+                            } else {
+                                restaurant.img = this.src;
+                            }
+                        });
                         
                         this.prevPage = res.data.data.restaurants.prev_page_url;
                         this.nextPage = res.data.data.restaurants.next_page_url;
@@ -54,6 +61,14 @@
                     .get(this.nextPage)
                     .then((res)=>{
                         this.restaurants = res.data.data.restaurants.data;
+
+                        this.restaurants.forEach(restaurant => {
+                            if (restaurant.img) {
+                                restaurant.img = `http://127.0.0.1:8000/storage/${restaurant.img}`;
+                            } else {
+                                restaurant.img = this.src;
+                            }
+                        });
                         
                         this.prevPage = res.data.data.restaurants.prev_page_url;
                         this.nextPage = res.data.data.restaurants.next_page_url;
@@ -62,8 +77,9 @@
                     })
             },
         }
-  }
+    }
 </script>
+
 
 <template>
 
@@ -90,8 +106,7 @@
 
                     <!-- shadow-sm -->
                     <div class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
-                        <img class="card-img-top rounded rounded-top-5" :src="src" alt="bla">
-                        <!-- <img class="card-img-top rounded rounded-top-5" :src="restaurant.img" :alt="restaurant.restaurant_name"> -->
+                        <img class="card-img-top rounded rounded-top-5" :src="restaurant.img" :alt="restaurant.restaurant_name">
 
                         <div class="card-body text-center">
                             <h6 class="card-title mb-3 fw-bold">{{ restaurant.restaurant_name }}</h6>
