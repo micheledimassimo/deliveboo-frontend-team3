@@ -1,40 +1,67 @@
 <script>
-    //store
-        import { store } from '../../store.js';
-
     // axios
     import axios from 'axios';
 
-  export default {
-    data() {
-      return { 
-        restaurants:[],
-        store,
-        src: 'https://img.freepik.com/foto-gratuito/casseruola-deliziosa-su-un-supporto-di-legno_140725-949.jpg?t=st=1732115219~exp=1732118819~hmac=a770c4e44b39756dc35b8e695723d986b23128123c95a768703d5215ea5b9dfe&w=1380'
-      }
-    },
-    mounted(){
-        this.getRestaurants();
-        // this.getRestaurantSlug();
-    },
-    methods: {
-    //   getRestaurantSlug(){
-    //     axios
-    //         .get('http://127.0.0.1:8000/api/restaurants' + '/' + this.slug)
-    //         .then(res => {
-    //             this.restaurants = res.data.data.restaurants.data;
-    //             console.log(this.slug)
-    //         });
-    //   }, 
-      getRestaurants(){
-        axios
-            .get('http://127.0.0.1:8000/api/restaurants')
-            .then(res => {
-                this.restaurants = res.data.data.restaurants.data;
-                console.log(this.restaurants)
-            });
-      },
-    }
+    export default {
+        data() {
+        return { 
+            restaurants:[],
+            prevPage: null,
+            next: null,
+            clickedButton: false,
+            src: 'https://img.freepik.com/foto-gratuito/casseruola-deliziosa-su-un-supporto-di-legno_140725-949.jpg?t=st=1732115219~exp=1732118819~hmac=a770c4e44b39756dc35b8e695723d986b23128123c95a768703d5215ea5b9dfe&w=1380'
+        }
+        },
+        mounted(){
+            this.getRestaurants();
+            // this.getRestaurantSlug();
+        },
+        methods: {
+            //   getRestaurantSlug(){
+            //     axios
+            //         .get('http://127.0.0.1:8000/api/restaurants' + '/' + this.slug)
+            //         .then(res => {
+            //             this.restaurants = res.data.data.restaurants.data;
+            //             console.log(this.slug)
+            //         });
+            //   }, 
+            getRestaurants(){
+                axios
+                    .get('http://127.0.0.1:8000/api/restaurants')
+                    .then(res => {
+                        this.restaurants = res.data.data.restaurants.data;
+                        
+                        this.prevPage = res.data.data.restaurants.prev_page_url;
+                        this.nextPage = res.data.data.restaurants.next_page_url;
+                    });
+            },
+            ToPrevPage(){
+                this.clickedButton = true;
+                axios
+                    .get(this.prevPage)
+                    .then((res)=>{
+                        this.restaurants = res.data.data.restaurants.data;
+                        
+                        this.prevPage = res.data.data.restaurants.prev_page_url;
+                        this.nextPage = res.data.data.restaurants.next_page_url;
+
+                        this.clickedButton = false;
+                    })
+            },
+            ToNextPage(){
+                this.clickedButton = true;
+                axios
+                    .get(this.nextPage)
+                    .then((res)=>{
+                        this.restaurants = res.data.data.restaurants.data;
+                        
+                        this.prevPage = res.data.data.restaurants.prev_page_url;
+                        this.nextPage = res.data.data.restaurants.next_page_url;
+
+                        this.clickedButton = false;
+                    })
+            },
+        }
   }
 </script>
 
@@ -82,6 +109,20 @@
 
                 </div>
 
+            </div>
+
+            <!-- bottoni pagine precedenti e successive -->
+            <div class="d-flex justify-content-center">
+                <div>
+                    <a @click="ToPrevPage()" href="#" class="btn btn-outline-warning rounded-circle mx-2">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                </div>
+                <div>
+                    <a @click="ToNextPage()" href="#" class="btn btn-outline-warning rounded-circle mx-2">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                </div>
             </div>
 
         </div>

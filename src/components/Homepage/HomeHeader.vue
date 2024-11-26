@@ -34,7 +34,7 @@ export default {
         </p>
 
         <button class="btn btn-outline-warning" type="submit">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="#main">
                 {{ button }}
             </a>
         </button>
