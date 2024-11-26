@@ -71,4 +71,9 @@ export default {
 
 <style lang="scss" scoped>
     @use '../../assets/scss/main.scss' as *;
+
+    img{
+      height: 300px;
+      object-fit: cover;
+    }
 </style>
