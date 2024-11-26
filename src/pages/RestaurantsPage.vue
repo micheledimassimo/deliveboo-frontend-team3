@@ -37,7 +37,6 @@
                     })
                     .then(res => {
                         this.restaurants = res.data.data.restaurants.data;
-                        console.log(this.restaurants);
                         this.restaurants.forEach(restaurant => {
                             if (restaurant.img) {
                                 restaurant.img = `http://127.0.0.1:8000/storage/${restaurant.img}`;
@@ -45,9 +44,11 @@
                                 restaurant.img = this.src;
                             }
                         });
+                        console.log(this.restaurants);
                         
                         this.prevPage = res.data.data.restaurants.prev_page_url;
                         this.nextPage = res.data.data.restaurants.next_page_url;
+                        
                     });
             },
             filterByTypology() {
@@ -56,8 +57,17 @@
             ToPrevPage(){
                 this.clickedButton = true;
                 axios
-                    .get(this.prevPage)
+                    .get(this.prevPage,{
+
+                        params:{
+
+                            typology_name:this.selectedTypology
+
+                        }
+
+                    })
                     .then((res)=>{
+                        
                         this.restaurants = res.data.data.restaurants.data;
 
                         this.restaurants.forEach(restaurant => {
@@ -77,8 +87,15 @@
             ToNextPage(){
                 this.clickedButton = true;
                 axios
-                    .get(this.nextPage)
+                    .get(this.nextPage,{
+                        params:{
+
+                            typology_name:this.selectedTypology
+
+                        }
+                    })
                     .then((res)=>{
+                        
                         this.restaurants = res.data.data.restaurants.data;
 
                         this.restaurants.forEach(restaurant => {
@@ -88,6 +105,7 @@
                                 restaurant.img = this.src;
                             }
                         });
+                        
                         
                         this.prevPage = res.data.data.restaurants.prev_page_url;
                         this.nextPage = res.data.data.restaurants.next_page_url;
@@ -111,33 +129,37 @@
       </a>
   </button> -->
 
-  <div class="container-sm mt-5">
-      <div class="text-start my-4 mx-2">
-          <h3>
-              Dai un'occhiata <span class="text-warning">ad alcuni ristoranti</span>
-          </h3>
-      </div>
+    <div class="container-sm mt-5">
+        <div class="text-start my-4 mx-2">
+            <h3>
+                Dai un'occhiata <span class="text-warning">ad alcuni ristoranti</span>
+            </h3>
+        </div>
 
-      <div class="p-5">
+        <div class="ms-2 mb-3">
                 
-                <h3>
-                    Seleziona Tipologia
-                </h3>
-                <div class="form-floating">
+                
+        <div class="form-floating w-100">
                     
                     
-                    <select  id="typologyFilter" v-model="selectedTypology" class="form-select w-25 h-10 " @change="filterByTypology" aria-label="Floating label select example">
-                        <option select>Scegli una tipologia</option>
-                        <option v-for="(typology,i) in typologies" :key="i" :value="typology.typology_name">
-                            {{ typology.typology_name }}
-                        </option>
+            <select  id="typologyFilter" v-model="selectedTypology" class="form-select w-25 h-10 " @change="filterByTypology" aria-label="Floating label select example">
+                
+                <option value="">Tutte le tipologie</option>
+                
+                <option v-for="(typology,i) in typologies" :key="i" :value="typology.typology_name">
+                    
+                    {{ typology.typology_name }}
+                
+                </option>
                         
-                    </select>
-                    <label for="select">Tipologie</label>
-                </div>
+            </select>
+
+            <label for="select">Seleziona tipologia</label>
+
+        </div>
 
 
-            </div>
+    </div>
       
       <div class="row" id="restaurants">
 
