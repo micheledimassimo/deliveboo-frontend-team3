@@ -6,6 +6,8 @@
       data() {
         return { 
             restaurants:[],
+            typologies:[],
+            selectedTypology:'',
             prevPage: null,
             next: null,
             clickedButton: false,
@@ -13,15 +15,29 @@
         }
         },
         mounted(){
+            this.getTypologies();
             this.getRestaurants();
         },
         methods: {
+            getTypologies(){
+                axios.get('http://127.0.0.1:8000/api/typologies')
+                    .then(res => {
+                        this.typologies = res.data.data.typologies;
+                    });
+            },
             getRestaurants(){
                 axios
-                    .get('http://127.0.0.1:8000/api/restaurants')
+                    .get('http://127.0.0.1:8000/api/restaurants',{
+
+                        params:{
+
+                            typology_name:this.selectedTypology
+
+                        }
+                    })
                     .then(res => {
                         this.restaurants = res.data.data.restaurants.data;
-                        
+                        console.log(this.restaurants);
                         this.restaurants.forEach(restaurant => {
                             if (restaurant.img) {
                                 restaurant.img = `http://127.0.0.1:8000/storage/${restaurant.img}`;
@@ -33,6 +49,9 @@
                         this.prevPage = res.data.data.restaurants.prev_page_url;
                         this.nextPage = res.data.data.restaurants.next_page_url;
                     });
+            },
+            filterByTypology() {
+                this.getRestaurants(this.selectedTypology);
             },
             ToPrevPage(){
                 this.clickedButton = true;
@@ -98,6 +117,27 @@
               Dai un'occhiata <span class="text-warning">ad alcuni ristoranti</span>
           </h3>
       </div>
+
+      <div class="p-5">
+                
+                <h3>
+                    Seleziona Tipologia
+                </h3>
+                <div class="form-floating">
+                    
+                    
+                    <select  id="typologyFilter" v-model="selectedTypology" class="form-select w-25 h-10 " @change="filterByTypology" aria-label="Floating label select example">
+                        <option select>Scegli una tipologia</option>
+                        <option v-for="(typology,i) in typologies" :key="i" :value="typology.typology_name">
+                            {{ typology.typology_name }}
+                        </option>
+                        
+                    </select>
+                    <label for="select">Tipologie</label>
+                </div>
+
+
+            </div>
       
       <div class="row" id="restaurants">
 
