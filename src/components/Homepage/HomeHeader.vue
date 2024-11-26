@@ -22,9 +22,9 @@ export default {
 
   <div class="container-sm my-5">
 
-    <div class="row gx-3">
+    <div class="row  ">
 
-      <div class="col-6">
+      <div class="col-md-5 col-sm-12 pb-3">
         <h2 class="mb-4">
           {{ title }}
         </h2>
@@ -41,7 +41,7 @@ export default {
 
       </div>
 
-      <div id="carouselExample" class="carousel slide col">
+      <div id="carouselExample" class="carousel slide col-md-7 col-sm-12">
           <div class="carousel-inner rounded-4">
             <div class="carousel-item active">
               <img src="https://media-assets.lacucinaitaliana.it/photos/61fae7f75f740bfb879f54e8/3:2/w_1500,h_1000,c_limit/iStock-636305290.jpg" class="d-block w-100" alt="hamburger">
