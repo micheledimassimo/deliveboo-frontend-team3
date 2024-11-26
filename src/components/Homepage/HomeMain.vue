@@ -79,10 +79,14 @@
         </button> -->
 
         <div class="container-sm mt-5">
+            <div class="text-start my-4 mx-2">
+                <h3>
+                    Dai un'occhiata <span class="text-warning">ad alcuni ristoranti</span>
+                </h3>
+            </div>
+            <div class="row" id="restaurants">
 
-            <div class="row">
-
-                <div class="col-3 mb-4 d-flex" v-for="restaurant in restaurants" :key="restaurant.id">
+                <div class="col-sm-12 col-md-6 col-lg-3 mb-4 d-flex" v-for="restaurant in restaurants" :key="restaurant.id">
 
                     <!-- shadow-sm -->
                     <div class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
@@ -114,12 +118,12 @@
             <!-- bottoni pagine precedenti e successive -->
             <div class="d-flex justify-content-center">
                 <div>
-                    <a @click="ToPrevPage()" href="#" class="btn btn-outline-warning rounded-circle mx-2">
+                    <a @click="ToPrevPage()" href="#restaurants" class="btn btn-outline-warning rounded-circle mx-2">
                         <i class="fa-solid fa-chevron-left"></i>
                     </a>
                 </div>
                 <div>
-                    <a @click="ToNextPage()" href="#" class="btn btn-outline-warning rounded-circle mx-2">
+                    <a @click="ToNextPage()" href="#restaurants" class="btn btn-outline-warning rounded-circle mx-2">
                         <i class="fa-solid fa-chevron-right"></i>
                     </a>
                 </div>
