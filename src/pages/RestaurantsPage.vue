@@ -219,7 +219,7 @@
 
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 //  @use '../../assets/scss/main.scss' as *;
   @use '../assets/scss/main.scss' as *;
   // Import all of Bootstrap's CSS
