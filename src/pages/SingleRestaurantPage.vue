@@ -11,6 +11,7 @@
                     restaurant: null,
                     src: 'https://img.freepik.com/foto-gratuito/casseruola-deliziosa-su-un-supporto-di-legno_140725-949.jpg?t=st=1732115219~exp=1732118819~hmac=a770c4e44b39756dc35b8e695723d986b23128123c95a768703d5215ea5b9dfe&w=1380',
                     is_visible: true,
+                    cart: []
                 }
         },
         components: {
@@ -36,6 +37,18 @@
                     });
                 });
             },
+            addToCart(menu_item) {
+            // Cerca il piatto nel carrello
+            const cartItem = this.cart.find(item => item.id === menu_item.id);
+
+            if (cartItem) {
+                // Incrementa la quantità se il piatto è già presente
+                cartItem.quantity += 1;
+            } else {
+                // Aggiungi il piatto al carrello con quantità iniziale 1
+                this.cart.push({ ...menu_item, quantity: 1 });
+            }
+          }     
         }
     }
 </script>
@@ -59,20 +72,31 @@
             </div>
 
             <div class="offcanvas-body">
-
                 <p>Ecco i dettagli del tuo ordine</p>
 
-                <div class="card mb-4">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                    </ul>
+                <div v-if="cart.length === 0">
+                    <p>Il carrello è vuoto.</p>
                 </div>
 
-                <button type="button" class="btn btn-warning" data-bs-dismiss="offcanvas" aria-label="Close">
-                    Concludi l'ordine
-                </button>
+                <div v-else>
+                    <div class="card mb-4">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="(item, index) in cart" :key="index">
+                                <div>
+                                    <strong>{{ item.item_name }}</strong> - {{ item.price }} €
+                                </div>
+                                <div>
+                                    x{{ item.quantity }} 
+                                    <span class="badge bg-secondary ms-2">{{ (item.price * item.quantity).toFixed(2) }} €</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="offcanvas" aria-label="Close">
+                        Concludi l'ordine
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -82,7 +106,7 @@
             <div class="col-sm-12 col-md-6 col-lg-3 mb-4 d-flex" v-for="menu_item in restaurant.menu_items.filter(item => item.is_visible)" :key="menu_item.id">
 
                 <!-- shadow-sm -->
-                <div class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
+                <div id="menuitem" class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
 
                     <img :src="menu_item.image" class="rounded-circle border border-dark-subtle border-1 shadow-sm" :alt="menu_item.item_name">
 
@@ -97,7 +121,7 @@
                             {{ menu_item.price }} € 
                         </div>
 
-                        <button class="btn btn-outline-warning text-black rounded-pill">
+                        <button class="btn btn-outline-warning text-black rounded-pill" @click="addToCart(menu_item)">
                             Aggiungi al carrello
                         </button>
                     </div>
@@ -149,7 +173,7 @@
     }
 
   }
-  .card:hover{
+   #menuitem:hover{
     border: 1px solid rgb(255, 206, 30);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.503); 
   }
