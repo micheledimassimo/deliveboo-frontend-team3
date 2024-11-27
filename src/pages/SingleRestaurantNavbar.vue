@@ -18,16 +18,15 @@ export default {
 
         <div class="collapse navbar-collapse d-flex justify-content-between">
 
-          <a class="navbar-brand" href="#">
+          <router-link class="navbar-brand" to="/">
             <i class="fa-solid fa-burger text-warning"></i> 
             Delive<strong class="text-warning">Boo</strong>
-          </a>
+          </router-link>
 
-          <button class="btn btn-outline-dark border-dark-subtle" type="submit">
-            <a class="nav-link" href="http://127.0.0.1:8000/login">
-                <i class="fa-solid fa-house text-warning me-2"></i>
-                Registrati o accedi
-            </a>
+          <!-- offcanvas bottone -->
+          <button class="btn btn-outline-dark border-dark-subtle" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                <i class="fa-solid fa-cart-shopping text-warning me-2"></i>
+                Carrello
           </button>
 
         </div>
