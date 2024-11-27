@@ -131,6 +131,7 @@
         top: -60px;
         left: 50%;
         transform: translateX(-50%);
+        background-color: white;
     }
 
     & .card-body{
