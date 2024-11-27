@@ -1,6 +1,6 @@
 <script>
 //store
-import { store } from '../../store.js';
+import { store } from '../store.js';
 
 export default {
   data() {
@@ -34,7 +34,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '../../assets/scss/partials/variables' as *;
+@use '../assets/scss/partials/variables' as *;
 
 .container-sm {
   div {

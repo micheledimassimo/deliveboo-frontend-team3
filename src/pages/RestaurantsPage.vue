@@ -2,17 +2,22 @@
     // axios
     import axios from 'axios';
 
+    import HomeHeader from './HomeHeader.vue';
+
     export default {
       data() {
         return { 
-            restaurants:[],
-            typologies:[],
-            selectedTypology:'',
-            prevPage: null,
-            next: null,
-            clickedButton: false,
-            src: 'https://img.freepik.com/foto-gratuito/casseruola-deliziosa-su-un-supporto-di-legno_140725-949.jpg?t=st=1732115219~exp=1732118819~hmac=a770c4e44b39756dc35b8e695723d986b23128123c95a768703d5215ea5b9dfe&w=1380'
-        }
+                restaurants:[],
+                typologies:[],
+                selectedTypology:'',
+                prevPage: null,
+                next: null,
+                clickedButton: false,
+                src: 'https://img.freepik.com/foto-gratuito/casseruola-deliziosa-su-un-supporto-di-legno_140725-949.jpg?t=st=1732115219~exp=1732118819~hmac=a770c4e44b39756dc35b8e695723d986b23128123c95a768703d5215ea5b9dfe&w=1380'
+            }
+        },
+        components: {
+            HomeHeader,
         },
         mounted(){
             this.getTypologies();
@@ -119,15 +124,10 @@
 
 
 <template>
+
+    <HomeHeader />
   
   <main id="main">
-
-  <!-- <button>
-      <a class="nav-link" :href="getRestaurantSlug()">
-          <i class="fa-solid fa-house text-warning me-2"></i>
-          vai alla tua dashboard
-      </a>
-  </button> -->
 
     <div class="container-sm mt-5">
         <div class="text-start my-4 mx-2">
@@ -192,18 +192,25 @@
       </div>
 
       <!-- bottoni pagine precedenti e successive -->
+
       <div class="d-flex justify-content-center">
-          <div>
-              <a @click="ToPrevPage()" href="#restaurants" class="btn btn-outline-warning rounded-circle mx-2">
-                  <i class="fa-solid fa-chevron-left"></i>
-              </a>
-          </div>
-          <div>
-              <a @click="ToNextPage()" href="#restaurants" class="btn btn-outline-warning rounded-circle mx-2">
-                  <i class="fa-solid fa-chevron-right"></i>
-              </a>
-          </div>
-      </div>
+                <div>
+                    <button @click="ToPrevPage()"
+                        :disabled="prevPage == null || clickedButton"
+                        class="btn btn-outline-warning rounded-circle mx-2"
+                        type="button">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                </div>
+                <div>
+                    <button @click="ToNextPage()"
+                        :disabled="nextPage == null || clickedButton"
+                        class="btn btn-outline-warning rounded-circle mx-2"
+                        type="button">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+        </div>
 
   </div>
 
@@ -231,20 +238,4 @@
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.503); 
   }
 
-  // .container {
-  //   padding-top: 20px;
-  //   .carousel {
-  //     margin: 0 auto;
-  //     .carousel-inner {
-  //       .carousel-item {
-  //         img {
-  //           width: 70%;
-  //           height: 300px;
-  //           object-fit: cover;
-  //           object-position: 0%;
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 </style>
