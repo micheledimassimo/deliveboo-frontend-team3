@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-    // createWebHistory = simula una cronologia di navigazione.
+// createWebHistory = simula una cronologia di navigazione.
 import RestaurantsPage from './pages/RestaurantsPage.vue';
 import NotFoundPage from './pages/NotFoundpage.vue'
 import SingleRestaurantPage from './pages/SingleRestaurantPage.vue'
@@ -14,7 +14,7 @@ const router = createRouter({
             component: RestaurantsPage
         },
         {
-            path: '/:slug',
+            path: '/restaurant/:slug',
             name: 'restaurant-show',
             component: SingleRestaurantPage
         },

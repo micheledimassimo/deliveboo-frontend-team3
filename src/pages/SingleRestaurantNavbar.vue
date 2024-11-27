@@ -18,10 +18,10 @@ export default {
 
         <div class="collapse navbar-collapse d-flex justify-content-between">
 
-          <a class="navbar-brand" href="#">
+          <router-link class="navbar-brand" to="/">
             <i class="fa-solid fa-burger text-warning"></i> 
             Delive<strong class="text-warning">Boo</strong>
-          </a>
+          </router-link>
 
           <!-- offcanvas bottone -->
           <button class="btn btn-outline-dark border-dark-subtle" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
