@@ -6,11 +6,12 @@
 
     export default {
         data() {
-        return { 
-                defaultUrl: 'http://127.0.0.1:8000/api/restaurants',
-                restaurant: null,
-                src: 'https://img.freepik.com/foto-gratuito/casseruola-deliziosa-su-un-supporto-di-legno_140725-949.jpg?t=st=1732115219~exp=1732118819~hmac=a770c4e44b39756dc35b8e695723d986b23128123c95a768703d5215ea5b9dfe&w=1380',
-            }
+            return { 
+                    defaultUrl: 'http://127.0.0.1:8000/api/restaurants',
+                    restaurant: null,
+                    src: 'https://img.freepik.com/foto-gratuito/casseruola-deliziosa-su-un-supporto-di-legno_140725-949.jpg?t=st=1732115219~exp=1732118819~hmac=a770c4e44b39756dc35b8e695723d986b23128123c95a768703d5215ea5b9dfe&w=1380',
+                    is_visible: true,
+                }
         },
         components: {
             SingleRestaurantNavbar,
@@ -23,14 +24,16 @@
                 axios
                     .get(this.defaultUrl + '/' + this.$route.params.slug)
                     .then(res => {
+
                         this.restaurant = res.data.data.restaurant;
+
                         this.restaurant.menu_items.forEach(menu_item => {
                             if (menu_item.image) {
                                 menu_item.image = `http://127.0.0.1:8000/storage/${menu_item.image}`;
                             } else {
                                 menu_item.image = this.src;
                             }
-                        });
+                    });
                 });
             },
         }
@@ -76,7 +79,7 @@
         <!-- card piatti -->
         <div class="row">
 
-            <div class="col-sm-12 col-md-6 col-lg-3 mb-4 d-flex" v-for="menu_item in restaurant.menu_items" :key="menu_item.id">
+            <div class="col-sm-12 col-md-6 col-lg-3 mb-4 d-flex" v-for="menu_item in restaurant.menu_items.filter(item => item.is_visible)" :key="menu_item.id">
 
                 <!-- shadow-sm -->
                 <div class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
@@ -102,6 +105,7 @@
                 </div>
 
             </div>
+
         </div>
     </div>
 
