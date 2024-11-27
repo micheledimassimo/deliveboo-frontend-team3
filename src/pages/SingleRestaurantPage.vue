@@ -19,6 +19,14 @@
         },
         mounted(){
             this.getSingleRestaurant();
+            this.loadCart();
+        },
+        computed: {
+            cartTotal() {
+                return this.cart.reduce((total, item) => {
+                    return total + (item.price * item.quantity);
+                }, 0).toFixed(2); // Restituisce il totale con due decimali
+            }
         },
         methods: {
             getSingleRestaurant(){
@@ -38,17 +46,46 @@
                 });
             },
             addToCart(menu_item) {
-            // Cerca il piatto nel carrello
-            const cartItem = this.cart.find(item => item.id === menu_item.id);
+                // Cerca il piatto nel carrello
+                const cartItem = this.cart.find(item => item.id === menu_item.id);
 
-            if (cartItem) {
-                // Incrementa la quantità se il piatto è già presente
-                cartItem.quantity += 1;
-            } else {
-                // Aggiungi il piatto al carrello con quantità iniziale 1
-                this.cart.push({ ...menu_item, quantity: 1 });
-            }
-          }     
+                if (cartItem) {
+                    // Incrementa la quantità se il piatto è già presente
+                    cartItem.quantity += 1;
+                } else {
+                    // Aggiungi il piatto al carrello con quantità iniziale 1
+                    this.cart.push({ ...menu_item, quantity: 1 });
+                }
+                this.saveCart();
+            },
+            increaseQuantity(item) {
+                // Incrementa la quantità dell'elemento specifico
+                item.quantity += 1;
+                this.saveCart();
+            },
+            decreaseQuantity(item) {
+                // Decrementa la quantità dell'elemento specifico, rimuovendolo se raggiunge 0
+                if (item.quantity > 1) {
+                    item.quantity -= 1;
+                } else {
+                    this.removeItem(item);
+                }
+                this.saveCart();
+            },
+            removeItem(item) {
+                // Rimuove completamente l'elemento dal carrello
+                this.cart = this.cart.filter(cartItem => cartItem.id !== item.id);
+                this.saveCart();
+            },
+            saveCart() {
+                localStorage.setItem('cart', JSON.stringify(this.cart));
+            },
+            loadCart() {
+                const savedCart = localStorage.getItem('cart');
+                if (savedCart) {
+                    this.cart = JSON.parse(savedCart);
+                }
+            },   
         }
     }
 </script>
@@ -72,7 +109,7 @@
             </div>
 
             <div class="offcanvas-body">
-                <p>Ecco i dettagli del tuo ordine</p>
+                <p>Ecco i dettagli del tuo ordine:</p>
 
                 <div v-if="cart.length === 0">
                     <p>Il carrello è vuoto.</p>
@@ -83,14 +120,33 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center" v-for="(item, index) in cart" :key="index">
                                 <div>
+
                                     <strong>{{ item.item_name }}</strong> - {{ item.price }} €
+                                    <br>
+                                    <small class="text-muted">
+                                        Totale: {{ (item.price * item.quantity).toFixed(2) }} €
+                                    </small>
+
                                 </div>
-                                <div>
-                                    x{{ item.quantity }} 
-                                    <span class="badge bg-secondary ms-2">{{ (item.price * item.quantity).toFixed(2) }} €</span>
+                                <div class="d-flex align-items-center">
+                                    
+                                    <button class="btn btn-sm btn-outline-warning me-2 quantity-button" @click="decreaseQuantity(item)">-</button>
+                                    <span>{{ item.quantity }}</span>
+                                    
+                                    <button class="btn btn-sm btn-outline-warning ms-2 quantity-button" @click="increaseQuantity(item)">+</button>
+                                    
+                                    <button class="btn btn-sm btn-outline-danger ms-3" @click="removeItem(item)">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+
                                 </div>
                             </li>
                         </ul>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center my-3">
+                        <h5>Totale:</h5>
+                        <h5 class="text-end">{{ cartTotal }} €</h5>
                     </div>
 
                     <button type="button" class="btn btn-warning" data-bs-dismiss="offcanvas" aria-label="Close">
@@ -149,6 +205,13 @@
     .card{
         margin-bottom: 80px;
     }
+  }
+
+  .quantity-button{
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    line-height: 10px;
   }
 
   .card{
