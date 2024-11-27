@@ -78,10 +78,12 @@
                 this.saveCart();
             },
             saveCart() {
-                localStorage.setItem('cart', JSON.stringify(this.cart));
+                const restaurantSlug = this.$route.params.slug;
+                localStorage.setItem(`cart_${restaurantSlug}`, JSON.stringify(this.cart));
             },
             loadCart() {
-                const savedCart = localStorage.getItem('cart');
+                const restaurantSlug = this.$route.params.slug; 
+                const savedCart = localStorage.getItem(`cart_${restaurantSlug}`); 
                 if (savedCart) {
                     this.cart = JSON.parse(savedCart);
                 }
