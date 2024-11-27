@@ -11,7 +11,7 @@
                 typologies:[],
                 selectedTypology:'',
                 prevPage: null,
-                next: null,
+                nextPage: null,
                 clickedButton: false,
                 src: 'https://img.freepik.com/foto-gratuito/casseruola-deliziosa-su-un-supporto-di-legno_140725-949.jpg?t=st=1732115219~exp=1732118819~hmac=a770c4e44b39756dc35b8e695723d986b23128123c95a768703d5215ea5b9dfe&w=1380'
             }
@@ -49,7 +49,7 @@
                                 restaurant.img = this.src;
                             }
                         });
-                        console.log(this.restaurants);
+                        
                         
                         this.prevPage = res.data.data.restaurants.prev_page_url;
                         this.nextPage = res.data.data.restaurants.next_page_url;
