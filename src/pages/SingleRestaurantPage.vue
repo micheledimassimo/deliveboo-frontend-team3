@@ -117,6 +117,12 @@
     margin-bottom: 100px;
   }
 
+  .col-md-6{
+    .card{
+        margin-bottom: 80px;
+    }
+  }
+
   .card{
     box-shadow: 0 0 5px rgba(14, 14, 14, 0.2); 
     transition: box-shadow .3s;
