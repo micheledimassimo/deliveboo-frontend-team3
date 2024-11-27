@@ -2,12 +2,17 @@
         // axios
         import axios from 'axios';
 
+        import SingleRestaurantNavbar from './SingleRestaurantNavbar.vue';
+
 export default {
     data() {
     return { 
-        defaultUrl: 'http://127.0.0.1:8000/api/restaurants',
-        restaurant: null
-    }
+            defaultUrl: 'http://127.0.0.1:8000/api/restaurants',
+            restaurant: null
+        }
+    },
+    components: {
+        SingleRestaurantNavbar,
     },
     mounted(){
         this.getSingleRestaurant();
@@ -28,6 +33,8 @@ export default {
 
 
 <template>
+
+    <SingleRestaurantNavbar />
 
     <div class="container" v-if="restaurant != null">
         <h1>
