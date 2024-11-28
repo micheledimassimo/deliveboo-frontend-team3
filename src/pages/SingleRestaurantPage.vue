@@ -2,8 +2,6 @@
     // axios
     import axios from 'axios';
 
-    import SingleRestaurantNavbar from './SingleRestaurantNavbar.vue';
-
     export default {
         data() {
             return { 
@@ -14,9 +12,6 @@
                     cart: [],
                 }
         },
-        components: {
-            SingleRestaurantNavbar,
-        },
         mounted(){
             this.getSingleRestaurant();
             this.loadCart();
@@ -26,7 +21,11 @@
                 return this.cart.reduce((total, item) => {
                     return total + (item.price * item.quantity);
                 }, 0).toFixed(2); // Restituisce il totale con due decimali
-            }
+            },
+            cartCount() {
+            // Conta tutti gli articoli nel carrello, sommando le quantità
+            return this.cart.reduce((total, item) => total + item.quantity, 0);
+            },
         },
         methods: {
             getSingleRestaurant(){
@@ -105,14 +104,117 @@
 
 <template>
 
-    <SingleRestaurantNavbar />
+    <!-- navbar -->
+    <header>
 
+    <!-- Navbar breakpoint dispositivi desktop -->
+    <div class="container-sm d-none d-md-block">
+
+        <nav class="navbar navbar-expand-lg mt-2">
+
+            <div class="collapse navbar-collapse d-flex justify-content-between">
+
+                <router-link class="navbar-brand" to="/">
+                <i class="fa-solid fa-burger text-warning"></i> 
+                Delive<strong class="text-warning">Boo</strong>
+                </router-link>
+
+                <button type="button"
+                        class="btn btn-outline-dark border-dark-subtle position-relative"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasWithBothOptions"
+                        aria-controls="offcanvasWithBothOptions">
+
+                        <i class="fa-solid fa-cart-shopping text-warning me-2"></i>
+                        Carrello
+                        <span v-if="this.cart.length>0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-black">
+                            {{ cartCount }}
+                        </span>
+                </button>
+
+            </div>
+
+        </nav>
+
+    </div>
+
+    <!-- Navbar breakpoint dispositivi mobile -->
+    <div class="container-sm d-block d-md-none">
+
+        <nav class="navbar navbar-expand-lg">
+            
+            <div class="collapse navbar-collapse d-flex justify-content-between">
+
+                <a class="navbar-brand w-75 fs-1" href="#">
+                    <i class="fa-solid fa-burger text-warning"></i> 
+                    Delive<strong class="text-warning">Boo</strong>
+                </a>
+
+                <button class="btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                    <i class="fa-solid fa-bars fa-2x text-warning"></i>
+                </button>
+
+                <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                    
+                    <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasRightLabel">
+                        Deliveboo
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <a class="nav-link" href="http://127.0.0.1:8000/register">
+                            <i class="fa-solid fa-house text-warning me-2"></i>
+                                Registrati 
+                        </a>
+                        <a class="nav-link mt-3" href="http://127.0.0.1:8000/login">
+                            <i class="fa-solid fa-house text-warning me-2"></i>
+                                Accedi 
+                        </a>
+                        <div>
+                            <hr class="text-warning">
+                        </div>
+                        <a class="nav-link mt-3" href="#">
+                            Chi Siamo
+                        </a>
+                        <a class="nav-link mt-3" href="#">
+                            Contatti
+                        </a>
+                        <a class="nav-link mt-3" href="#">
+                            Informativa sulla privacy
+                        </a>
+                        <a class="nav-link mt-3" href="#">
+                            Partner
+                        </a>
+                        <a class="nav-link mt-3" href="#">
+                            FAQ
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <form class="d-flex my-2 w-100" role="search">
+                <input class="form-control me-2" type="search" placeholder="Cerca ristoratnte per nome o tipologia" aria-label="Search">
+                <button class="btn btn-outline-dark border-dark-subtle" type="submit">Cerca</button>
+            </form>
+
+        </nav>
+
+    </div>
+
+    </header>
+
+    <!-- main -->
     <div class="container mt-5" v-if="restaurant != null">
-        <h1>
-            {{ restaurant.restaurant_name }}
-        </h1>
+        <div class="d-flex justify-content-between">
+            <h1>
+                {{ restaurant.restaurant_name }}
+            </h1>
+        </div>
 
-        <!-- offcanvas carrello -->
+        <!-- carrello -->
         <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
             
             <div class="offcanvas-header">
@@ -174,7 +276,6 @@
 
             <div class="col-sm-12 col-md-6 col-lg-3 mb-4 d-flex" v-for="menu_item in restaurant.menu_items.filter(item => item.is_visible)" :key="menu_item.id">
 
-                <!-- shadow-sm -->
                 <div id="menuitem" class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
 
                     <img :src="menu_item.image" class="rounded-circle border border-dark-subtle border-1 shadow-sm" :alt="menu_item.item_name">
@@ -183,6 +284,7 @@
                         <h6 class="card-title mb-2 fw-bold">{{ menu_item.item_name }}</h6>
                         <p class="mb-2">{{ menu_item.description }}</p>
                     </div>
+
                     <div class="d-flex align-items-center justify-content-evenly mb-2">
                         <div class="badge rounded-pill text-bg-warning">
                             {{ menu_item.price }} € 
@@ -201,7 +303,6 @@
                             </div>
                             <div class="dots"></div>
                         </button>
-
                     </div>
 
                 </div>
