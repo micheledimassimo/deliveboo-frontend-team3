@@ -3,13 +3,14 @@
     import axios from 'axios';
 
     import HomeHeader from './HomeHeader.vue';
-
+    
     export default {
       data() {
         return { 
                 restaurants:[],
                 typologies:[],
-                selectedTypology:'',
+                selectedTypologies:[],
+                selectAll:false,
                 prevPage: null,
                 nextPage: null,
                 clickedButton: false,
@@ -36,7 +37,7 @@
 
                         params:{
 
-                            typology_name:this.selectedTypology
+                            typology_name:this.selectedTypologies.join(',')
 
                         }
                     })
@@ -50,15 +51,26 @@
                             }
                         });
                         
-                        
+                        console.log(this.restaurants)
                         this.prevPage = res.data.data.restaurants.prev_page_url;
                         this.nextPage = res.data.data.restaurants.next_page_url;
                         
                     });
             },
             filterByTypology() {
-                this.getRestaurants(this.selectedTypology);
+                this.getRestaurants();
             },
+            toggleAllTypologies() {
+            if (this.selectAll) {
+                // Se "Tutte le tipologie" è selezionato, aggiungi tutte le tipologie
+                this.selectedTypologies = this.typologies.map(t => t.typology_name);
+            } else {
+                // Deseleziona tutte le tipologie
+                this.selectedTypologies = [];
+            }
+            this.filterByTypology(); // Applica il filtro
+            },
+      
             ToPrevPage(){
                 this.clickedButton = true;
                 axios
@@ -66,7 +78,7 @@
 
                         params:{
 
-                            typology_name:this.selectedTypology
+                            typology_name: this.selectedTypologies.join(',')
 
                         }
 
@@ -95,7 +107,7 @@
                     .get(this.nextPage,{
                         params:{
 
-                            typology_name:this.selectedTypology
+                            typology_name: this.selectedTypologies.join(',')
 
                         }
                     })
@@ -117,8 +129,13 @@
 
                         this.clickedButton = false;
                     })
-            },
-        }
+            }
+        },
+            watch: {
+            selectedTypologies(newVal) {
+            // Mantieni sincronizzato il checkbox "Tutte le tipologie"
+            this.selectAll = newVal.length === this.typologies.length;
+            }}
     }
 </script>
 
@@ -136,32 +153,57 @@
             </h3>
         </div>
 
-        <div class="ms-2 mb-3">
-                
-                
-        <div class="form-floating w-100">
-                    
-                    
-            <select  id="typologyFilter" v-model="selectedTypology" class="form-select w-25 h-10 " @change="filterByTypology" aria-label="Floating label select example">
-                
-                <option value="">Tutte le tipologie</option>
-                
-                <option v-for="(typology,i) in typologies" :key="i" :value="typology.typology_name">
-                    
-                    {{ typology.typology_name }}
-                
-                </option>
-                        
-            </select>
+        <div class="text-start mb-3">
 
-            <label for="select">Seleziona tipologia</label>
+            <div class="dropdown">
+                <button 
+                    class="btn btn-warning dropdown-toggle" 
+                    type="button" 
+                    id="dropdownMenuButton" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false">
+                    Seleziona Tipologie
+                </button>
+
+                <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
+                    <!-- Checkbox per selezionare tutte le tipologie -->
+                    <li>
+                        <div class="form-check">
+                            <input 
+                                class="form-check-input" 
+                                type="checkbox" 
+                                id="selectAll" 
+                                v-model="selectAll" 
+                                @change="toggleAllTypologies" 
+                            />
+                            <label class="form-check-label" for="selectAll">Tutte le tipologie</label>
+                        </div>
+                    </li>
+                    <hr />
+
+                    <!-- Checkbox dinamiche per ogni tipologia -->
+                    <li v-for="(typology, i) in typologies" :key="i">
+                        <div class="form-check">
+                            <input 
+                                class="form-check-input" 
+                                type="checkbox" 
+                                :id="'typology-' + i" 
+                                :value="typology.typology_name" 
+                                v-model="selectedTypologies" 
+                                @change="filterByTypology" 
+                            />
+                            <label class="form-check-label" :for="'typology-' + i">
+                                {{ typology.typology_name }}
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
 
         </div>
-
-
-    </div>
       
-      <div class="row" id="restaurants">
+        <div class="row" id="restaurants">
 
           <div class="col-sm-12 col-md-6 col-lg-3 mb-4 d-flex" v-for="restaurant in restaurants" :key="restaurant.id">
 
