@@ -70,21 +70,15 @@
             }
             this.filterByTypology(); // Applica il filtro
             },
-      
             ToPrevPage(){
                 this.clickedButton = true;
                 axios
                     .get(this.prevPage,{
-
                         params:{
-
                             typology_name: this.selectedTypologies.join(',')
-
                         }
-
                     })
                     .then((res)=>{
-                        
                         this.restaurants = res.data.data.restaurants.data;
 
                         this.restaurants.forEach(restaurant => {
@@ -106,13 +100,10 @@
                 axios
                     .get(this.nextPage,{
                         params:{
-
                             typology_name: this.selectedTypologies.join(',')
-
                         }
                     })
                     .then((res)=>{
-                        
                         this.restaurants = res.data.data.restaurants.data;
 
                         this.restaurants.forEach(restaurant => {
@@ -122,8 +113,6 @@
                                 restaurant.img = this.src;
                             }
                         });
-                        
-                        
                         this.prevPage = res.data.data.restaurants.prev_page_url;
                         this.nextPage = res.data.data.restaurants.next_page_url;
 
@@ -131,134 +120,127 @@
                     })
             }
         },
-            watch: {
+        watch: {
             selectedTypologies(newVal) {
             // Mantieni sincronizzato il checkbox "Tutte le tipologie"
             this.selectAll = newVal.length === this.typologies.length;
-            }}
+        }},
     }
 </script>
-
 
 <template>
 
     <HomeHeader />
   
-  <main id="main">
+    <main id="main">
 
-    <div class="container-sm mt-5">
-        <div class="text-start my-4 mx-2">
-            <h3>
-                Dai un'occhiata <span class="text-warning">ad alcuni ristoranti</span>
-            </h3>
-        </div>
-
-        <div class="text-start mb-3">
-
-            <div class="dropdown">
-                <button 
-                    class="btn btn-warning dropdown-toggle" 
-                    type="button" 
-                    id="dropdownMenuButton" 
-                    data-bs-toggle="dropdown" 
-                    aria-expanded="false">
-                    Seleziona Tipologie
-                </button>
-
-                <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
-                    <!-- Checkbox per selezionare tutte le tipologie -->
-                    <li>
-                        <div class="form-check">
-                            <input 
-                                class="form-check-input" 
-                                type="checkbox" 
-                                id="selectAll" 
-                                v-model="selectAll" 
-                                @change="toggleAllTypologies" 
-                            />
-                            <label class="form-check-label" for="selectAll">Tutte le tipologie</label>
-                        </div>
-                    </li>
-                    <hr />
-
-                    <!-- Checkbox dinamiche per ogni tipologia -->
-                    <li v-for="(typology, i) in typologies" :key="i">
-                        <div class="form-check">
-                            <input 
-                                class="form-check-input" 
-                                type="checkbox" 
-                                :id="'typology-' + i" 
-                                :value="typology.typology_name" 
-                                v-model="selectedTypologies" 
-                                @change="filterByTypology" 
-                            />
-                            <label class="form-check-label" :for="'typology-' + i">
-                                {{ typology.typology_name }}
-                            </label>
-                        </div>
-                    </li>
-                </ul>
+        <div class="container-sm mt-5">
+            <div class="text-start my-4 mx-2">
+                <h3>
+                    Dai un'occhiata <span class="text-warning">ad alcuni ristoranti</span>
+                </h3>
             </div>
 
+            <div class="text-start mb-3">
 
-        </div>
-      
-        <div class="row" id="restaurants">
+                <div class="dropdown">
+                    <button 
+                        class="btn btn-warning dropdown-toggle" 
+                        type="button" 
+                        id="dropdownMenuButton" 
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false">
+                        Seleziona Tipologie
+                    </button>
 
-          <div class="col-sm-12 col-md-6 col-lg-3 mb-4 d-flex" v-for="restaurant in restaurants" :key="restaurant.id">
+                    <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
+                        <!-- Checkbox per selezionare tutte le tipologie -->
+                        <li>
+                            <div class="form-check">
+                                <input 
+                                    class="form-check-input" 
+                                    type="checkbox" 
+                                    id="selectAll" 
+                                    v-model="selectAll" 
+                                    @change="toggleAllTypologies" 
+                                />
+                                <label class="form-check-label" for="selectAll">Tutte le tipologie</label>
+                            </div>
+                        </li>
+                        <hr />
 
-              <!-- shadow-sm -->
-              <div class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
-                  <img class="card-img-top rounded rounded-top-5" :src="restaurant.img" :alt="restaurant.restaurant_name">
+                        <!-- Checkbox dinamiche per ogni tipologia -->
+                        <li v-for="(typology, i) in typologies" :key="i">
+                            <div class="form-check">
+                                <input 
+                                    class="form-check-input" 
+                                    type="checkbox" 
+                                    :id="'typology-' + i" 
+                                    :value="typology.typology_name" 
+                                    v-model="selectedTypologies" 
+                                    @change="filterByTypology" 
+                                />
+                                <label class="form-check-label" :for="'typology-' + i">
+                                    {{ typology.typology_name }}
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
-                  <div class="card-body text-center">
-                      <h6 class="card-title mb-3 fw-bold">{{ restaurant.restaurant_name }}</h6>
+            </div>
+        
+            <div class="row" id="restaurants">
 
-                      <div>
-                          <span v-for="typology in restaurant.typologies" :key="typology.id" class="badge rounded-pill text-bg-warning mb-2 mx-1">
-                              {{ typology.typology_name }}
-                          </span>
-                      </div>
-                  </div>
+                <div class="col-sm-12 col-md-6 col-lg-3 mb-5 d-flex" v-for="restaurant in restaurants" :key="restaurant.id">
 
-                  <div>
-                    <router-link class="btn btn-outline-warning text-black rounded-pill mb-3" :to="{ name: 'restaurant-show', params: { slug: restaurant.slug }}">
-                        Menu
-                    </router-link>
-                  </div>
+                    <!-- shadow-sm -->
+                    <div class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
+                        <img class="card-img-top rounded rounded-top-5" :src="restaurant.img" :alt="restaurant.restaurant_name">
 
-              </div>
+                        <div class="card-body text-center">
+                            <h6 class="card-title mb-3 fw-bold">{{ restaurant.restaurant_name }}</h6>
 
-          </div>
+                            <div>
+                                <span v-for="typology in restaurant.typologies" :key="typology.id" class="badge rounded-pill text-bg-warning mb-2 mx-1">
+                                    {{ typology.typology_name }}
+                                </span>
+                            </div>
+                        </div>
 
-      </div>
+                        <div>
+                            <router-link class="btn btn-outline-warning text-black rounded-pill mb-3" :to="{ name: 'restaurant-show', params: { slug: restaurant.slug }}">
+                                Menu
+                            </router-link>
+                        </div>
 
-      <!-- bottoni pagine precedenti e successive -->
+                    </div>
 
-      <div class="d-flex justify-content-center">
+                </div>
+
+            </div>
+
+            <!-- bottoni pagine precedenti e successive -->
+            <div class="d-flex justify-content-center">
                 <div>
                     <button @click="ToPrevPage()"
                         :disabled="prevPage == null || clickedButton"
-                        class="btn btn-outline-warning rounded-circle mx-2"
-                        type="button">
-                        <i class="fa-solid fa-chevron-left"></i>
+                        class="btn btn-outline-dark border-dark-subtle text-warning mx-2 rounded-pill"
+                        type="button"><i class="fa-solid fa-chevron-left"></i>
                     </button>
                 </div>
                 <div>
                     <button @click="ToNextPage()"
                         :disabled="nextPage == null || clickedButton"
-                        class="btn btn-outline-warning rounded-circle mx-2"
-                        type="button">
-                        <i class="fa-solid fa-chevron-right"></i>
+                        class="btn btn-outline-dark border-dark-subtle text-warning mx-2 rounded-pill"
+                        type="button"><i class="fa-solid fa-chevron-right"></i>
                     </button>
                 </div>
+            </div>
+
         </div>
-
-  </div>
-
-</main>
-  
-
+        
+    </main>
 </template>
 
 <style lang="scss" scoped>
@@ -279,5 +261,4 @@
     border: 1px solid rgb(255, 206, 30);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.503); 
   }
-
 </style>
