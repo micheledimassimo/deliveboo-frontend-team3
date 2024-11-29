@@ -28,76 +28,71 @@
             },
         },
         methods: {
-            getSingleRestaurant(){
-                axios
-                    .get(this.defaultUrl + '/' + this.$route.params.slug)
-                    .then(res => {
-
-                        this.restaurant = res.data.data.restaurant;
-
-                        this.restaurant.menu_items.forEach(menu_item => {
-                            if (menu_item.image) {
-                                menu_item.image = `http://127.0.0.1:8000/storage/${menu_item.image}`;
-                            } else {
-                                menu_item.image = this.src;
-                            }
-                        menu_item.isAdded = false;
-
-                    });
+    getSingleRestaurant() {
+        axios
+            .get(this.defaultUrl + '/' + this.$route.params.slug)
+            .then(res => {
+                this.restaurant = res.data.data.restaurant;
+                this.restaurant.menu_items.forEach(menu_item => {
+                    if (menu_item.image) {
+                        menu_item.image = `http://127.0.0.1:8000/storage/${menu_item.image}`;
+                    } else {
+                        menu_item.image = this.src;
+                    }
+                    menu_item.isAdded = false;
                 });
-            },
-            addToCart(menu_item) {
-                // Cerca il piatto nel carrello
-                const cartItem = this.cart.find(item => item.id === menu_item.id);
-
-                if (cartItem) {
-                    // Incrementa la quantità se il piatto è già presente
-                    cartItem.quantity += 1;
-                } else {
-                    // Aggiungi il piatto al carrello con quantità iniziale 1
-                    this.cart.push({ ...menu_item, quantity: 1 });
-                }
-
-                // Attiva l'animazione solo per il pulsante specifico
-                menu_item.isAdded = true;
-                setTimeout(() => {
-                    menu_item.isAdded = false;  // Ripristina lo stato dopo l'animazione
-                }, 2000);                       // Durata dell'animazione (2 secondi)
-
-                // Salva il carrello alla fine di questa operazione
-                this.saveCart();
-            },
-            increaseQuantity(item) {
-                // Incrementa la quantità dell'elemento specifico
-                item.quantity += 1;
-                this.saveCart();
-            },
-            decreaseQuantity(item) {
-                // Decrementa la quantità dell'elemento specifico, rimuovendolo se raggiunge 0
-                if (item.quantity > 1) {
-                    item.quantity -= 1;
-                } else {
-                    this.removeItem(item);
-                }
-                this.saveCart();
-            },
-            removeItem(item) {
-                // Rimuove completamente l'elemento dal carrello
-                this.cart = this.cart.filter(cartItem => cartItem.id !== item.id);
-                this.saveCart();
-            },
-            saveCart() {
-                const restaurantSlug = this.$route.params.slug;
-                localStorage.setItem(`cart_${restaurantSlug}`, JSON.stringify(this.cart));
-            },
-            loadCart() {
-                const restaurantSlug = this.$route.params.slug; 
-                const savedCart = localStorage.getItem(`cart_${restaurantSlug}`); 
-                if (savedCart) {
-                    this.cart = JSON.parse(savedCart);
-                }
-            },
+            });
+    },
+    goToCheckout() {
+        const restaurantSlug = this.$route.params.slug; // Ensure this is not undefined
+        if (!restaurantSlug) {
+            console.error("Slug is missing!");
+            return;
         }
+        this.$router.push({ name: 'checkout', params: { slug: restaurantSlug } });
+    },
+    addToCart(menu_item) {
+        const cartItem = this.cart.find(item => item.id === menu_item.id);
+        if (cartItem) {
+            cartItem.quantity += 1;
+        } else {
+            this.cart.push({ ...menu_item, quantity: 1 });
+        }
+        menu_item.isAdded = true;
+        setTimeout(() => {
+            menu_item.isAdded = false;
+        }, 2000);
+        
+        this.saveCart(); // Save the cart after adding an item
+    },
+    increaseQuantity(item) {
+        item.quantity += 1;
+        this.saveCart();
+    },
+    decreaseQuantity(item) {
+        if (item.quantity > 1) {
+            item.quantity -= 1;
+        } else {
+            this.removeItem(item);
+        }
+        this.saveCart();
+    },
+    removeItem(item) {
+        this.cart = this.cart.filter(cartItem => cartItem.id !== item.id);
+        this.saveCart();
+    },
+    loadCart() {
+        const restaurantSlug = this.$route.params.slug;
+        const savedCart = localStorage.getItem(`cart_${restaurantSlug}`);
+        if (savedCart) {
+            this.cart = JSON.parse(savedCart);
+        }
+    },
+    saveCart() {
+        const restaurantSlug = this.$route.params.slug; // Get the restaurant slug from the route
+        localStorage.setItem(`cart_${restaurantSlug}`, JSON.stringify(this.cart)); // Save cart to localStorage
+    }
+}
     }
 </script>
 
@@ -264,9 +259,11 @@
                         <h5 class="text-end">{{ cartTotal }} €</h5>
                     </div>
 
-                    <button type="button" class="btn btn-warning" data-bs-dismiss="offcanvas" aria-label="Close">
-                        Concludi l'ordine
-                    </button>
+            <router-link 
+                    :to="{ name: 'checkout', params: { slug: restaurant.slug } }"
+                >
+                    Go to Checkout
+            </router-link>
                 </div>
             </div>
         </div>
