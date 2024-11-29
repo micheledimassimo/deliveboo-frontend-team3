@@ -35,10 +35,6 @@ export default {
             </a>
           </button>
 
-          <router-link class="btn btn-danger text-black rounded-pill" :to="{ name: 'checkout'}">
-              ORDERS PAGE (WORK IN PROGRESS)
-          </router-link>
-
         </div>
 
       </nav>
