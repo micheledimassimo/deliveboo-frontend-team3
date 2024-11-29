@@ -1,7 +1,6 @@
 <script>
     // axios
     import axios from 'axios';
-    import SingleRestaurantNavbar from './SingleRestaurantNavbar.vue';
 
     export default {
         data() {
@@ -17,9 +16,6 @@
                 message: '',
                 error: ''
             }
-        },
-        components: {
-            SingleRestaurantNavbar
         },
         methods: {
             sendOrder() {
@@ -51,7 +47,6 @@
 </script>
 
 <template>
-    <SingleRestaurantNavbar />
     <div class="container mt-4">
         <h2>Contact Page</h2>
 
