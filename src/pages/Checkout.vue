@@ -1,6 +1,8 @@
 <script>
     // axios
     import axios from 'axios';
+    //braintree
+    import dropin from 'braintree-web-drop-in';
 
     export default {
         data() {
@@ -14,7 +16,9 @@
                     total_price: ''
                 },
                 message: '',
-                error: ''
+                error: '',
+                loading: false,
+                dropinInstance: null,
             }
         },
         methods: {
@@ -41,9 +45,48 @@
                         this.error = 'Errore durante l\'invio dell\'ordine. Controlla i dati e riprova.';
                         this.message = '';
                     });
-            }
+            },
+            async initializeDropin() {
+                try {
+                    const response = await axios.get('http://localhost:8000/api/braintree/token');
+                    const clientToken = response.data.clientToken;
+
+                    this.dropinInstance = await dropin.create({
+                    authorization: clientToken,
+                    container: '#dropin-container',
+                    });
+                } catch (error) {
+                    console.error('Errore nella creazione del drop-in:', error);
+                }
+                },
+                async submitPayment() {
+                if (!this.dropinInstance) {
+                    alert('Drop-in non inizializzato!');
+                    return;
+                }
+
+                this.loading = true;
+
+                try {
+                    const payload = await this.dropinInstance.requestPaymentMethod();
+                    const response = await axios.post('http://localhost:8000/api/braintree/checkout', {
+                    nonce: payload.nonce,
+                    amount: '10.00', // Sostituisci con l'importo dinamico
+                    });
+                    alert('Pagamento riuscito!');
+                } catch (error) {
+                    console.error('Errore durante il pagamento:', error);
+                    alert('Errore durante il pagamento.');
+                } finally {
+                    this.loading = false;
+                }
+            },
         },
-    }
+        mounted() {
+            this.initializeDropin();
+        },
+    };
+    
 </script>
 
 <template>
@@ -122,8 +165,11 @@
                     placeholder="Inserisci il prezzo totale" 
                     required/>
             </div>
-
-            <div class="col-12">
+            <div>
+                <div id="dropin-container"></div>
+                <button @click="submitPayment" :disabled="loading">Effettua Pagamento</button>
+                </div>
+            <div class="col-12 my-5">
                 <button type="submit" class="btn btn-primary">Invia Ordine</button>
             </div>
         </form>
