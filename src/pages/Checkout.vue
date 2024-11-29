@@ -17,13 +17,24 @@
                 error: ''
             }
         },
+        props: {
+            cart: {
+                type: Array,
+                required: true,
+            },
+            cartTotal: {
+                type: String,
+                required: true,
+            },
+        },
         methods: {
             sendOrder() {
-                console.log(this.newOrder, this.newOrder);
+                this.newOrder.total_price = this.cartTotal;; // Usa il totale calcolato del carrello
+
                 axios
                     .post(this.defaultUrl, this.newOrder)
-                    .then((res) => {
-                        console.log(res);
+                    .then(res => {
+                        console.log(res.data.message);
                         this.message = 'Ordine inviato con successo!';
                         this.error = '';
 
@@ -41,7 +52,8 @@
                         this.error = 'Errore durante l\'invio dell\'ordine. Controlla i dati e riprova.';
                         this.message = '';
                     });
-            }
+            },
+
         },
     }
 </script>
@@ -50,9 +62,20 @@
     <div class="container mt-4">
         <h2>Contact Page</h2>
 
+        <div>
+            <h4>Riepilogo del Carrello</h4>
+            <ul>
+                <li v-for="item in cart" :key="item.id">
+                    {{ item.item_name }} x{{ item.quantity }} - {{ (item.price * item.quantity).toFixed(2) }} €
+                </li>
+            </ul>
+            <p><strong>Totale: {{ cartTotal }} €</strong></p>
+        </div>
+
         <div v-if="message" class="alert alert-success">{{ message }}</div>
         <div v-if="error" class="alert alert-danger">{{ error }}</div>
 
+        <!-- form -->
         <form @submit.prevent="sendOrder">
             <div class="row g-3 mb-3">
                 <div class="col-md-6">

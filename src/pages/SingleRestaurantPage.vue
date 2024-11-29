@@ -1,6 +1,7 @@
 <script>
     // axios
     import axios from 'axios';
+    import Checkout from './Checkout.vue';
 
     export default {
         data() {
@@ -11,6 +12,9 @@
                     is_visible: true,
                     cart: [],
                 }
+        },
+        components: {
+            Checkout
         },
         mounted(){
             this.getSingleRestaurant();
@@ -97,12 +101,36 @@
                     this.cart = JSON.parse(savedCart);
                 }
             },
+            saveCartToDatabase() {
+                const cartData = this.cart.map(item => ({
+                    menu_item_id: item.id,
+                    quantity: item.quantity,
+                }));
+
+                axios
+                    .post('http://127.0.0.1:8000/api/menu-item-order', { menu_items: cartData })
+                    .then(response => {
+                        console.log(response.data.message);
+                    })
+                    .catch(error => {
+                        console.error(error.response?.data || error);
+                    });
+            },
+            submitCart() {
+                this.saveCartToDatabase();
+
+                // Reindirizzare alla pagina del checkout
+                this.$router.push({ name: 'checkout' });
+            }
         }
     }
 </script>
 
 
 <template>
+
+    <!-- <Checkout /> -->
+    <Checkout :cart="cart" :cartTotal="cartTotal" />
 
     <!-- navbar -->
     <header>
@@ -264,7 +292,7 @@
                         <h5 class="text-end">{{ cartTotal }} €</h5>
                     </div>
 
-                    <button type="button" class="btn btn-warning" data-bs-dismiss="offcanvas" aria-label="Close">
+                    <button type="button" class="btn btn-warning" @click="submitCart">
                         Concludi l'ordine
                     </button>
                 </div>

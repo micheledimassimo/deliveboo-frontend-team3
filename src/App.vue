@@ -12,7 +12,7 @@ import HomeFooter from './pages/HomeFooter.vue';
 export default {
   data() {
     return { 
-
+      cart: [],
     }
   },
   // 2) Dichiarazione del componente
