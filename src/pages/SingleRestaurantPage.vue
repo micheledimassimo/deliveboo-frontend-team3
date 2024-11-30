@@ -262,7 +262,9 @@
             <router-link 
                     :to="{ name: 'checkout', params: { slug: restaurant.slug } }"
                 >
-                    Go to Checkout
+                    <button class="btn btn-outline-dark border-dark-subtle btn-warning">
+                        Vai al checkout
+                    </button>
             </router-link>
                 </div>
             </div>
