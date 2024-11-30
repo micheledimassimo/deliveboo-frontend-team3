@@ -58,8 +58,10 @@ export default {
                     const response = await axios.post('http://localhost:8000/api/braintree/checkout', {
                     nonce: payload.nonce,
                     
-                    amount: this.cartTotal, // importo dinamico
-                    });
+                    amount: this.cartTotal // importo dinamico
+                    
+                    },
+                    this.sendOrder());
                     
                 } catch (error) {
                     console.error('Errore durante il pagamento:', error);
@@ -159,7 +161,7 @@ export default {
          
         <!--form-->
         <div class="col-8">
-          <form @submit.prevent="sendOrder" v-if="cart.length > 0">
+          <form @submit.prevent="submitPayment" v-if="cart.length > 0">
             <div class="row g-3 mb-3">
               <div class="col-md-6">
                 <label for="customer_email" class="form-label">Email</label>
@@ -186,7 +188,7 @@ export default {
             
             <div class="my-3">
                 <div id="dropin-container"></div>
-                <button @click="submitPayment" :disabled="loading">Inserisci metodo di pagamento</button>
+                
           </div>
 
             <div class="col-12">
