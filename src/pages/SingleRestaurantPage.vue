@@ -41,6 +41,15 @@
                             }
                             menu_item.isAdded = false;
                         });
+                        const validCart = this.cart.filter(item =>
+                            this.restaurant.menu_items.some(menu_item => menu_item.id === item.id)
+                        );
+
+                        // If the cart has been modified, update localStorage
+                        if (validCart.length !== this.cart.length) {
+                            this.cart = validCart; // Update cart to only valid items
+                            this.saveCart(); // Update localStorage with the valid cart
+                        }
                     });
             },
             goToCheckout() {
@@ -63,7 +72,7 @@
                     menu_item.isAdded = false;
                 }, 2000);
                 
-                this.saveCart();
+                this.saveCart(); // Save the cart after adding an item
             },
             increaseQuantity(item) {
                 item.quantity += 1;
@@ -90,7 +99,7 @@
             },
             saveCart() {
                 const restaurantSlug = this.$route.params.slug; 
-                localStorage.setItem(`cart_${restaurantSlug}`, JSON.stringify(this.cart)); 
+                localStorage.setItem(`cart_${restaurantSlug}`, JSON.stringify(this.cart)); // Save cart to localStorage
             }
         }
     }
