@@ -205,7 +205,7 @@ export default {
             <h3 class="text-center">Riepilogo Ordine</h3>
             <ul>
               <li v-for="(item, index) in cart" :key="index">
-                <strong class="me-2">{{ item.name }}</strong> - €{{ item.price }} x {{ item.quantity }}
+                <strong class="me-2">{{ item.item_name }}</strong> - €{{ item.price }} x {{ item.quantity }}
               </li>
             </ul>
             <div class="text-center">
