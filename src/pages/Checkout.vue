@@ -140,11 +140,11 @@ export default {
           Delive<strong class="text-warning">Boo</strong>
         </a>
 
-        <button class="btn btn-outline-dark border-dark-subtle" type="submit">
-          <a class="nav-link" href="http://localhost:5173">
-              <i class="fa-solid fa-house text-warning me-2"></i>
-              Homepage
-          </a>
+        <button class="btn btn-outline-dark border-dark-subtle">
+            <router-link to="/" class="nav-link">
+                <i class="fa-solid fa-house text-warning me-2"></i>
+                Homepage
+            </router-link>
         </button>
 
       </div>
