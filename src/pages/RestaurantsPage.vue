@@ -59,6 +59,10 @@
                         
                     });
             },
+            clearSelectedTypologies() {
+                this.selectedTypologies = []; // Resetta l'array
+                this.filterByTypology();     // Aggiorna la visualizzazione se necessario
+            },
             prevSlide() {
                 if (this.isChanging || this.currentSlideTypologies === 0) return; 
                 this.isChanging = true;
@@ -179,11 +183,11 @@
                 </h3>
             </div>
 
-            <div class="my-3">
-                <h3>Seleziona <span class="text-warning">Tipologie</span>  Ristorante</h3>
+            <div class="mb-5">
+                <h3>Seleziona le <span class="text-warning">Tipologie</span> del Ristorante</h3>
 
                 <!-- Carosello Tipologie -->
-                <div id="typologyCarousel" class="carousel slide d-flex align-items-center my-4">
+                <div id="typologyCarousel" class="carousel slide d-flex align-items-center mb-4">
                     
                     <!-- Controllo del carosello tipologie btn-prev -->
                     <div class="w-25 text-end pt-3">
@@ -258,12 +262,17 @@
                     </div>
                     
                 </div>
+
+                <!-- reset filtri solo se > 0 -->
+                <button 
+                    class="btn btn-outline-dark border-dark-subtle text-warning rounded-pill" 
+                    @click="clearSelectedTypologies"
+                    v-if="selectedTypologies.length > 0"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                </button>
             </div>
 
-                 
-
-            
-        
             <div class="row" id="restaurants">
 
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-5 d-flex" v-for="restaurant in restaurants" :key="restaurant.id">
