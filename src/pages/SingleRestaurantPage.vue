@@ -301,6 +301,7 @@
                         <button class="add-to-cart"
                             @click="addToCart(menu_item)"
                             :class="{ 'add-to-cart': true, 'added': menu_item.isAdded }"
+                            :disabled="menu_item.isAdded"
                         >
                             <div class="default">Aggiungi</div>
                             <div class="cart">
