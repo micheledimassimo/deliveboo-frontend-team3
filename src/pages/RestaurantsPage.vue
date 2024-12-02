@@ -10,6 +10,8 @@
                 restaurants:[],
                 typologies:[],
                 selectedTypologies:[],
+                currentSlideTypologies: 0,
+                isChanging: false,
                 selectAll:false,
                 prevPage: null,
                 nextPage: null,
@@ -56,6 +58,30 @@
                         this.nextPage = res.data.data.restaurants.next_page_url;
                         
                     });
+            },
+            prevSlide() {
+                if (this.isChanging || this.currentSlideTypologies === 0) return; 
+                this.isChanging = true;
+    
+                // Cambia la slide
+                this.currentSlideTypologies--;
+                
+                // Ritarda la possibilità di cliccare di nuovo per la durata della transizione (ad esempio, 500ms)
+                setTimeout(() => {
+                this.isChanging = false; // Abilita il bottone dopo il timeout
+                }, 500); 
+            },
+            nextSlide() {
+                if (this.isChanging || this.currentSlideTypologies === this.groupedTypologies.length - 1) return; 
+                this.isChanging = true;
+                
+                // Cambia la slide
+                this.currentSlideTypologies++;
+                
+                // Ritarda la possibilità di cliccare di nuovo per la durata della transizione (ad esempio, 500ms)
+                setTimeout(() => {
+                this.isChanging = false; // Abilita il bottone dopo il timeout
+                }, 500); 
             },
             filterByTypology() {
                 this.getRestaurants();
@@ -120,11 +146,23 @@
                     })
             }
         },
+        
         watch: {
             selectedTypologies(newVal) {
-            // Mantieni sincronizzato il checkbox "Tutte le tipologie"
-            this.selectAll = newVal.length === this.typologies.length;
-        }},
+                // Mantieni sincronizzato il checkbox "Tutte le tipologie"
+                this.selectAll = newVal.length === this.typologies.length;
+            }
+        },
+        
+        computed: {
+            groupedTypologies() {
+                const groups = [];
+                for (let i = 0; i < this.typologies.length; i += 5) {
+                    groups.push(this.typologies.slice(i, i + 5));
+                }
+                return groups;
+            }
+        },
     }
 </script>
 
@@ -141,54 +179,90 @@
                 </h3>
             </div>
 
-            <div class="text-start mb-3">
+            <div class="my-3">
+                <h3>Seleziona <span class="text-warning">Tipologie</span>  Ristorante</h3>
 
-                <div class="dropdown">
-                    <button 
-                        class="btn btn-warning dropdown-toggle" 
+                <!-- Carosello Tipologie -->
+                <div id="typologyCarousel" class="carousel slide d-flex align-items-center my-4">
+                    
+                    <!-- Controllo del carosello tipologie btn-prev -->
+                    <div class="w-25 text-end pt-3">
+
+                        <button 
+                        
+                        class="btn btn-outline-dark border-dark-subtle text-warning mx-2 rounded-pill" 
                         type="button" 
-                        id="dropdownMenuButton" 
-                        data-bs-toggle="dropdown" 
-                        aria-expanded="false">
-                        Seleziona Tipologie
+                        data-bs-target="#typologyCarousel" 
+                        data-bs-slide="prev"
+                        :disabled="currentSlideTypologies === 0 || isChanging"
+                        @click="prevSlide"
+                    >
+                    <i class="fa-solid fa-chevron-left"></i>
                     </button>
 
-                    <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
-                        <!-- Checkbox per selezionare tutte le tipologie -->
-                        <li>
-                            <div class="form-check">
-                                <input 
-                                    class="form-check-input" 
-                                    type="checkbox" 
-                                    id="selectAll" 
-                                    v-model="selectAll" 
-                                    @change="toggleAllTypologies" 
-                                />
-                                <label class="form-check-label" for="selectAll">Tutte le tipologie</label>
-                            </div>
-                        </li>
-                        <hr />
+                    </div>
+                    
+                    <!--Visualizzazione carosello tipologie-->
 
-                        <!-- Checkbox dinamiche per ogni tipologia -->
-                        <li v-for="(typology, i) in typologies" :key="i">
-                            <div class="form-check">
-                                <input 
-                                    class="form-check-input" 
-                                    type="checkbox" 
-                                    :id="'typology-' + i" 
-                                    :value="typology.typology_name" 
-                                    v-model="selectedTypologies" 
-                                    @change="filterByTypology" 
-                                />
-                                <label class="form-check-label" :for="'typology-' + i">
-                                    {{ typology.typology_name }}
-                                </label>
+                    <div class="carousel-inner w-50">
+                        <!-- Dividi le tipologie in gruppi da 6 per slide -->
+                        <div 
+                            v-for="(group, index) in groupedTypologies" 
+                            :key="index" 
+                            class="carousel-item" 
+                            :class="{ active: index === currentSlideTypologies }"
+                        >
+                            <div class="d-flex flex-wrap justify-content-center">
+                                <div 
+                                    v-for="(typology, i) in group" 
+                                    :key="i" 
+                                    
+                                >
+                                    <div class="form-check pt-3">
+                                        <input 
+                                            class="btn-check" 
+                                            type="checkbox" 
+                                            :id="'typology-' + (index * 5 + i)" 
+                                            :value="typology.typology_name" 
+                                            v-model="selectedTypologies" 
+                                            @change="filterByTypology" 
+                                            
+                                        />
+                                        <label 
+                                            class="btn rounded-pill py-0"
+                                            :class="selectedTypologies.includes(typology.typology_name) ? 'bg-warning text-white border-none' : 'bg-white border-warning text-warning'"  
+                                            :for="'typology-' + (index * 5 + i)"
+                                        >
+                                            {{ typology.typology_name }}
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
+
+                    <!-- Controllo del carosello tipologie btn-next -->
+                    <div class="w-25 text-start pt-3">
+
+                        <button 
+                     
+                            class="btn btn-outline-dark border-dark-subtle text-warning mx-2 rounded-pill" 
+                            type="button" 
+                            data-bs-target="#typologyCarousel" 
+                            data-bs-slide="next"
+                            :disabled="currentSlideTypologies === groupedTypologies.length - 1 || isChanging"
+                            @click="nextSlide"
+                        >
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    
                 </div>
-
             </div>
+
+                 
+
+            
         
             <div class="row" id="restaurants">
 
@@ -221,21 +295,31 @@
             </div>
 
             <!-- bottoni pagine precedenti e successive -->
-            <div class="d-flex justify-content-center">
-                <div>
-                    <button @click="ToPrevPage()"
-                        :disabled="prevPage == null || clickedButton"
-                        class="btn btn-outline-dark border-dark-subtle text-warning mx-2 rounded-pill"
-                        type="button"><i class="fa-solid fa-chevron-left"></i>
-                    </button>
+            <div>
+
+                <div class="d-flex justify-content-center" v-if="restaurants && restaurants.length > 0">
+                    <div >
+                        <button @click="ToPrevPage()"
+                            :disabled="prevPage == null || clickedButton"
+                            class="btn btn-outline-dark border-dark-subtle text-warning mx-2 rounded-pill"
+                            type="button"><i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button @click="ToNextPage()"
+                            :disabled="nextPage == null || clickedButton"
+                            class="btn btn-outline-dark border-dark-subtle text-warning mx-2 rounded-pill"
+                            type="button"><i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
                 </div>
-                <div>
-                    <button @click="ToNextPage()"
-                        :disabled="nextPage == null || clickedButton"
-                        class="btn btn-outline-dark border-dark-subtle text-warning mx-2 rounded-pill"
-                        type="button"><i class="fa-solid fa-chevron-right"></i>
-                    </button>
+
+                <div v-else class="mt-4">
+                    <h3 class="text-center">Non ci sono
+                        <span class="text-warning">Ristoranti</span>  disponibili con le 
+                        <span class="text-warning">Tipologie</span> selezionate</h3>
                 </div>
+                
             </div>
 
         </div>
