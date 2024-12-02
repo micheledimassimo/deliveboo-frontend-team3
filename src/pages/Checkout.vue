@@ -128,95 +128,98 @@ export default {
 </script>
 
 <template>
-  <div class="container mt-4">
+  <div class="container-sm">
      
-  <!--navbar-->
-  <nav class="navbar navbar-expand-lg mt-2">
+    <!--navbar-->
+    <nav class="navbar navbar-expand-lg mt-2">
 
-      <div class="collapse navbar-collapse d-flex justify-content-between">
+        <div class="collapse navbar-collapse d-flex justify-content-between">
 
-        <a class="navbar-brand" href="#">
-          <i class="fa-solid fa-burger text-warning"></i> 
-          Delive<strong class="text-warning">Boo</strong>
-        </a>
+          <a class="navbar-brand" href="#">
+            <i class="fa-solid fa-burger text-warning"></i> 
+            Delive<strong class="text-warning">Boo</strong>
+          </a>
 
-        <button class="btn btn-outline-dark border-dark-subtle">
-            <router-link to="/" class="nav-link">
-                <i class="fa-solid fa-house text-warning me-2"></i>
-                Homepage
-            </router-link>
-        </button>
+          <button class="btn btn-outline-dark border-dark-subtle">
+              <router-link to="/" class="nav-link">
+                  <i class="fa-solid fa-house text-warning me-2"></i>
+                  Homepage
+              </router-link>
+          </button>
 
+        </div>
+
+    </nav>
+
+
+      <div v-if="message" class="alert alert-success">
+        {{ message }}
       </div>
-
-  </nav>
-
-
-    <div v-if="message" class="alert alert-success">{{ message }}</div>
-    <div v-if="error" class="alert alert-danger">{{ error }}</div>
-    <div class="container-sm my-5">
-      <h2>Checkout</h2>
-      <div class="row">
-        <!--braintree payment-->
-         
-        <!--form-->
-        <div class="col-8">
-          <form @submit.prevent="submitPayment" v-if="cart.length > 0">
-            <div class="row g-3 mb-3">
-              <div class="col-md-6">
-                <label for="customer_email" class="form-label">Email</label>
-                <input type="email" v-model="newOrder.customer_email" class="form-control" id="customer_email" minlength="6" maxlength="255" placeholder="Inserisci la tua email" required />
-              </div>
-
-              <div class="col-md-6">
-                <label for="customer_name" class="form-label">Nome</label>
-                <input type="text" v-model="newOrder.customer_name" class="form-control" id="customer_name" minlength="3" maxlength="64" placeholder="Inserisci il tuo nome" required />
-              </div>
-            </div>
-
-            <div class="row g-3 mb-3">
-              <div class="col-md-6">
-                <label for="customer_address" class="form-label">Indirizzo</label>
-                <input type="text" v-model="newOrder.customer_address" class="form-control" id="customer_address" minlength="3" maxlength="255" placeholder="Inserisci il tuo indirizzo" required />
-              </div>
-
-              <div class="col-md-6">
-                <label for="customer_number" class="form-label">Numero di Telefono</label>
-                <input type="text" v-model="newOrder.customer_number" class="form-control" id="customer_number" minlength="10" maxlength="15" placeholder="Inserisci il tuo numero di telefono" required />
-              </div>
-            </div>
-            
-            <div class="my-3">
-                <div id="dropin-container"></div>
-                
-          </div>
-
-            <div class="col-12">
-              <button type="submit" class="btn btn-outline-dark border-dark-subtle btn-warning">Invia Ordine</button>
-            </div>
-          </form>
+      <div v-if="error" class="alert alert-danger">
+        {{ error }}
+      </div>
           
-        </div>
+            <h2>Checkout</h2>
+            <div class="row">
+              <!--braintree payment-->
+              
+              <!--form-->
+              <div class="col-8">
+                <form @submit.prevent="submitPayment" v-if="cart.length > 0">
+                  <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                      <label for="customer_email" class="form-label">Email</label>
+                      <input type="email" v-model="newOrder.customer_email" class="form-control" id="customer_email" minlength="6" maxlength="255" placeholder="Inserisci la tua email" required />
+                    </div>
 
-      
-         <!--cart checkout-->
-        <div class="col-4">
-          <div v-if="cart.length > 0">
-            <h3 class="text-center">Riepilogo Ordine</h3>
-            <ul>
-              <li v-for="(item, index) in cart" :key="index">
-                <strong class="me-2">{{ item.item_name }}</strong> - €{{ item.price }} x {{ item.quantity }}
-              </li>
-            </ul>
-            <div class="text-center">
-              <strong>Total: €{{ cartTotal }}</strong>
+                    <div class="col-md-6">
+                      <label for="customer_name" class="form-label">Nome</label>
+                      <input type="text" v-model="newOrder.customer_name" class="form-control" id="customer_name" minlength="3" maxlength="64" placeholder="Inserisci il tuo nome" required />
+                    </div>
+                  </div>
+
+                  <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                      <label for="customer_address" class="form-label">Indirizzo</label>
+                      <input type="text" v-model="newOrder.customer_address" class="form-control" id="customer_address" minlength="3" maxlength="255" placeholder="Inserisci il tuo indirizzo" required />
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="customer_number" class="form-label">Numero di Telefono</label>
+                      <input type="text" v-model="newOrder.customer_number" class="form-control" id="customer_number" minlength="10" maxlength="15" placeholder="Inserisci il tuo numero di telefono" required />
+                    </div>
+                  </div>
+                  
+                  <div class="my-3">
+                      <div id="dropin-container"></div>
+                      
+                </div>
+
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-outline-dark border-dark-subtle btn-warning">Invia Ordine</button>
+                  </div>
+                </form>
+                
+              </div>
+
+            
+              <!--cart checkout-->
+              <div class="col-4">
+                <div v-if="cart.length > 0">
+                  <h3 class="text-center">Riepilogo Ordine</h3>
+                  <ul>
+                    <li v-for="(item, index) in cart" :key="index">
+                      <strong class="me-2">{{ item.item_name }}</strong> - €{{ item.price }} x {{ item.quantity }}
+                    </li>
+                  </ul>
+                  <div class="text-center">
+                    <strong>Total: €{{ cartTotal }}</strong>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-   
-
+         
+      
   </div>
 </template>
 
