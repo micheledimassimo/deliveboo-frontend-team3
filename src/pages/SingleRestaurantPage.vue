@@ -35,9 +35,13 @@
                         this.restaurant = res.data.data.restaurant;
                         this.restaurant.menu_items.forEach(menu_item => {
                             if (menu_item.image) {
-                                menu_item.image = `http://127.0.0.1:8000/storage/${menu_item.image}`;
+                                if (menu_item.image.startsWith('http') || menu_item.image.startsWith('https')) {
+                                    menu_item.image = menu_item.image;
+                                } else {
+                                    menu_item.image = `http://127.0.0.1:8000/storage/${menu_item.image}`;
+                                }
                             } else {
-                                menu_item.image = this.src;
+                                menu_item.image = this.src; // Use the placeholder if no image exists
                             }
                             menu_item.isAdded = false;
                         });
