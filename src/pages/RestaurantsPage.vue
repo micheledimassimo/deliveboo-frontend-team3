@@ -33,58 +33,54 @@
                         this.typologies = res.data.data.typologies;
                     });
             },
-            getRestaurants(){
+            getRestaurants() {
                 axios
-                    .get('http://127.0.0.1:8000/api/restaurants',{
-
-                        params:{
-
-                            typology_name:this.selectedTypologies.join(',')
-
+                    .get('http://127.0.0.1:8000/api/restaurants', {
+                        params: {
+                            typology_name: this.selectedTypologies.join(',')
                         }
                     })
                     .then(res => {
                         this.restaurants = res.data.data.restaurants.data;
+
                         this.restaurants.forEach(restaurant => {
                             if (restaurant.img) {
-                                restaurant.img = `http://127.0.0.1:8000/storage/${restaurant.img}`;
+                                if (restaurant.img.startsWith('http') || restaurant.img.startsWith('https')) {
+                                    restaurant.img = restaurant.img;
+                                } else {
+                                    restaurant.img = `http://127.0.0.1:8000/storage/${restaurant.img}`;
+                                }
                             } else {
                                 restaurant.img = this.src;
                             }
                         });
-                        
-                        console.log(this.restaurants)
+
                         this.prevPage = res.data.data.restaurants.prev_page_url;
                         this.nextPage = res.data.data.restaurants.next_page_url;
-                        
                     });
             },
             clearSelectedTypologies() {
-                this.selectedTypologies = []; // Resetta l'array
-                this.filterByTypology();     // Aggiorna la visualizzazione se necessario
+                this.selectedTypologies = []; 
+                this.filterByTypology();    
             },
             prevSlide() {
                 if (this.isChanging || this.currentSlideTypologies === 0) return; 
                 this.isChanging = true;
     
-                // Cambia la slide
                 this.currentSlideTypologies--;
                 
-                // Ritarda la possibilità di cliccare di nuovo per la durata della transizione (ad esempio, 500ms)
                 setTimeout(() => {
-                this.isChanging = false; // Abilita il bottone dopo il timeout
+                this.isChanging = false; 
                 }, 500); 
             },
             nextSlide() {
                 if (this.isChanging || this.currentSlideTypologies === this.groupedTypologies.length - 1) return; 
                 this.isChanging = true;
                 
-                // Cambia la slide
                 this.currentSlideTypologies++;
                 
-                // Ritarda la possibilità di cliccare di nuovo per la durata della transizione (ad esempio, 500ms)
                 setTimeout(() => {
-                this.isChanging = false; // Abilita il bottone dopo il timeout
+                this.isChanging = false;
                 }, 500); 
             },
             filterByTypology() {
@@ -92,72 +88,74 @@
             },
             toggleAllTypologies() {
             if (this.selectAll) {
-                // Se "Tutte le tipologie" è selezionato, aggiungi tutte le tipologie
                 this.selectedTypologies = this.typologies.map(t => t.typology_name);
             } else {
-                // Deseleziona tutte le tipologie
                 this.selectedTypologies = [];
             }
-            this.filterByTypology(); // Applica il filtro
+            this.filterByTypology();
             },
-            ToPrevPage(){
+            ToPrevPage() {
                 this.clickedButton = true;
                 axios
-                    .get(this.prevPage,{
-                        params:{
+                    .get(this.prevPage, {
+                        params: {
                             typology_name: this.selectedTypologies.join(',')
                         }
                     })
-                    .then((res)=>{
+                    .then(res => {
                         this.restaurants = res.data.data.restaurants.data;
 
                         this.restaurants.forEach(restaurant => {
                             if (restaurant.img) {
-                                restaurant.img = `http://127.0.0.1:8000/storage/${restaurant.img}`;
+                                if (restaurant.img.startsWith('http') || restaurant.img.startsWith('https')) {
+                                    restaurant.img = restaurant.img;
+                                } else {
+                                    restaurant.img = `http://127.0.0.1:8000/storage/${restaurant.img}`;
+                                }
                             } else {
                                 restaurant.img = this.src;
                             }
                         });
-                        
+
                         this.prevPage = res.data.data.restaurants.prev_page_url;
                         this.nextPage = res.data.data.restaurants.next_page_url;
-
                         this.clickedButton = false;
-                    })
+                    });
             },
-            ToNextPage(){
+            ToNextPage() {
                 this.clickedButton = true;
                 axios
-                    .get(this.nextPage,{
-                        params:{
+                    .get(this.nextPage, {
+                        params: {
                             typology_name: this.selectedTypologies.join(',')
                         }
                     })
-                    .then((res)=>{
+                    .then(res => {
                         this.restaurants = res.data.data.restaurants.data;
 
                         this.restaurants.forEach(restaurant => {
                             if (restaurant.img) {
-                                restaurant.img = `http://127.0.0.1:8000/storage/${restaurant.img}`;
+                                if (restaurant.img.startsWith('http') || restaurant.img.startsWith('https')) {
+                                    restaurant.img = restaurant.img;
+                                } else {
+                                    restaurant.img = `http://127.0.0.1:8000/storage/${restaurant.img}`;
+                                }
                             } else {
                                 restaurant.img = this.src;
                             }
                         });
+
                         this.prevPage = res.data.data.restaurants.prev_page_url;
                         this.nextPage = res.data.data.restaurants.next_page_url;
-
                         this.clickedButton = false;
-                    })
+                    });
             }
         },
-        
         watch: {
             selectedTypologies(newVal) {
-                // Mantieni sincronizzato il checkbox "Tutte le tipologie"
                 this.selectAll = newVal.length === this.typologies.length;
             }
         },
-        
         computed: {
             groupedTypologies() {
                 const groups = [];
