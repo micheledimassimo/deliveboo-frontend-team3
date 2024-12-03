@@ -1,30 +1,30 @@
 <script>
-    // axios
     import axios from 'axios';
 
     export default {
         data() {
             return { 
-                    defaultUrl: 'http://127.0.0.1:8000/api/restaurants',
-                    restaurant: null,
-                    src: 'https://img.freepik.com/foto-gratuito/casseruola-deliziosa-su-un-supporto-di-legno_140725-949.jpg?t=st=1732115219~exp=1732118819~hmac=a770c4e44b39756dc35b8e695723d986b23128123c95a768703d5215ea5b9dfe&w=1380',
-                    is_visible: true,
-                    cart: [],
-                }
+                defaultUrl: 'http://127.0.0.1:8000/api/restaurants',
+                restaurant: null,
+                src: 'https://img.freepik.com/foto-gratuito/casseruola-deliziosa-su-un-supporto-di-legno_140725-949.jpg?t=st=1732115219~exp=1732118819~hmac=a770c4e44b39756dc35b8e695723d986b23128123c95a768703d5215ea5b9dfe&w=1380',
+                is_visible: true,
+                cart: [],
+            }
         },
-        mounted(){
+        mounted() {
+            this.setupAutoRefresh(); //carica il refresh dopo tot tempo
             this.getSingleRestaurant();
             this.loadCart();
+            this.checkCartExpiry(); // Controlla se il carrello è scaduto all'avvio
         },
         computed: {
             cartTotal() {
                 return this.cart.reduce((total, item) => {
                     return total + (item.price * item.quantity);
-                }, 0).toFixed(2); // Restituisce il totale con due decimali
+                }, 0).toFixed(2);
             },
             cartCount() {
-            // Conta tutti gli articoli nel carrello, sommando le quantità
-            return this.cart.reduce((total, item) => total + item.quantity, 0);
+                return this.cart.reduce((total, item) => total + item.quantity, 0);
             },
         },
         methods: {
@@ -45,10 +45,9 @@
                             this.restaurant.menu_items.some(menu_item => menu_item.id === item.id)
                         );
 
-                        // If the cart has been modified, update localStorage
                         if (validCart.length !== this.cart.length) {
-                            this.cart = validCart; // Update cart to only valid items
-                            this.saveCart(); // Update localStorage with the valid cart
+                            this.cart = validCart;
+                            this.saveCart();
                         }
                     });
             },
@@ -71,12 +70,14 @@
                 setTimeout(() => {
                     menu_item.isAdded = false;
                 }, 2000);
-                
-                this.saveCart(); // Save the cart after adding an item
+
+                this.saveCart();
+                this.saveCartTimestamp(); // Aggiorna il timestamp ogni volta che il carrello cambia
             },
             increaseQuantity(item) {
                 item.quantity += 1;
                 this.saveCart();
+                this.saveCartTimestamp();
             },
             decreaseQuantity(item) {
                 if (item.quantity > 1) {
@@ -85,10 +86,12 @@
                     this.removeItem(item);
                 }
                 this.saveCart();
+                this.saveCartTimestamp();
             },
             removeItem(item) {
                 this.cart = this.cart.filter(cartItem => cartItem.id !== item.id);
                 this.saveCart();
+                this.saveCartTimestamp();
             },
             loadCart() {
                 const restaurantSlug = this.$route.params.slug;
@@ -99,8 +102,35 @@
             },
             saveCart() {
                 const restaurantSlug = this.$route.params.slug; 
-                localStorage.setItem(`cart_${restaurantSlug}`, JSON.stringify(this.cart)); // Save cart to localStorage
-            }
+                localStorage.setItem(`cart_${restaurantSlug}`, JSON.stringify(this.cart));
+            },
+            saveCartTimestamp() {
+                const restaurantSlug = this.$route.params.slug;
+                const timestamp = new Date().getTime(); // Salva il timestamp corrente
+                localStorage.setItem(`cart_timestamp_${restaurantSlug}`, timestamp);
+            },
+            checkCartExpiry() {
+                const restaurantSlug = this.$route.params.slug;
+                const savedTimestamp = localStorage.getItem(`cart_timestamp_${restaurantSlug}`);
+                if (savedTimestamp) {
+                    const currentTime = new Date().getTime();
+                    const elapsedTime = currentTime - savedTimestamp;
+
+                    // Controlla se è passata più di un'ora
+                    if (elapsedTime > 3600000) { // 3600000 ms = 1 ora
+                        this.cart = [];
+                        localStorage.removeItem(`cart_${restaurantSlug}`);
+                        localStorage.removeItem(`cart_timestamp_${restaurantSlug}`);
+                        
+                    }
+                }
+            },
+            setupAutoRefresh() {
+                const refreshInterval = 3600000; // 1 ora in millisecondi
+                setTimeout(() => {
+                    location.reload(); // Ricarica la pagina
+                }, refreshInterval);
+            },
         }
     }
 </script>
