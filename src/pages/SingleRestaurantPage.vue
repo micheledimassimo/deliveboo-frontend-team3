@@ -117,7 +117,7 @@
                     const elapsedTime = currentTime - savedTimestamp;
 
                     // Controlla se è passata più di un'ora
-                    if (elapsedTime > 3600000) { // 3600000 ms = 1 ora
+                    if (elapsedTime > 7200000) { // 3600000 ms = 1 ora
                         this.cart = [];
                         localStorage.removeItem(`cart_${restaurantSlug}`);
                         localStorage.removeItem(`cart_timestamp_${restaurantSlug}`);
@@ -126,7 +126,7 @@
                 }
             },
             setupAutoRefresh() {
-                const refreshInterval = 3600000; // 1 ora in millisecondi
+                const refreshInterval = 7201000; // 2 ora in millisecondi
                 setTimeout(() => {
                     location.reload(); // Ricarica la pagina
                 }, refreshInterval);

@@ -4,6 +4,9 @@ import axios from 'axios';
 //braintree
 import dropin from 'braintree-web-drop-in';
 
+import { Modal } from 'bootstrap';
+
+
 export default {
   data() {
     return {
@@ -49,30 +52,36 @@ export default {
         }
         },
         async submitPayment() {
-        if (!this.dropinInstance) {
-            alert('Drop-in non inizializzato!');
-            return;
-        }
+    if (!this.dropinInstance) {
+      this.error = 'Drop-in non inizializzato!';
+      this.showErrorModal();
+      return;
+    }
 
-        this.loading = true;
+    this.loading = true;
 
-        try {
-            const payload = await this.dropinInstance.requestPaymentMethod();
-            const response = await axios.post('http://localhost:8000/api/braintree/checkout', {
-            nonce: payload.nonce,
-            
-            amount: this.cartTotal
-            
-            },
-            this.sendOrder());
-            
-        } catch (error) {
-            console.error('Errore durante il pagamento:', error);
-            alert('Errore durante il pagamento.');
-        } finally {
-            this.loading = false;
-        }
-    },
+    try {
+      const payload = await this.dropinInstance.requestPaymentMethod();
+      await axios.post('http://localhost:8000/api/braintree/checkout', {
+        nonce: payload.nonce,
+        amount: this.cartTotal
+      },
+      this.sendOrder()
+    );
+      /* this.message = 'Pagamento effettuato con successo!';
+      this.error = ''; */
+    } catch (error) {
+      console.error('Errore durante il pagamento:', error);
+      this.error = 'Errore durante il pagamento. Riprova.';
+      this.showErrorModal();
+    } finally {
+      this.loading = false;
+    }
+  },
+  showErrorModal() {
+    const modal = new Modal(document.getElementById('errorModal'));
+    modal.show();
+  },
     loadCart() {
       const cartItems = JSON.parse(localStorage.getItem(`cart_${this.$route.params.slug}`));
       
@@ -148,10 +157,52 @@ export default {
   </nav>
 
 
-    <div v-if="message" class="alert alert-success">{{ message }}</div>
-    <div v-if="error" class="alert alert-danger">{{ error }}</div>
+    <div v-if="message" id="message-confirm" class="container text-center">
 
-    <div class="d-flex align-items-center">
+      <h1 class="py-3">
+            Ordine Confermato!
+        </h1>
+        <div>
+          <div>
+            <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/ec787be8-371a-4698-8c42-4d6e8d7486ca/d7zqbfa-0f1e6646-a7a3-412f-965a-b1361f95f89c.gif" alt="driver">
+          </div>
+          <div id="grass">
+            <img src="https://media.istockphoto.com/id/612852170/it/foto/stadio-erba.jpg?s=612x612&w=0&k=20&c=yJlvE7ZhR7k0WghJSlXO7GgbF2BEDINxJeuYKH806NA=" alt="grass">
+          </div>
+        </div>
+        
+        
+        <div class="py-4 fs-4">
+            Grazie per averci scelto per il tuo ordine
+        </div>
+        <div class="fs-4">
+            Il tuo ordine è in preparazione, ti avviseremo quando il rider avra ritirato l'ordine dal ristorante
+        </div>
+
+    </div>
+    
+
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="errorModalLabel">Errore</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{ error }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+        <!--braintree payment-->
+    <form @submit.prevent="submitPayment" v-if="cart.length > 0">
+      <div class="d-flex align-items-center">
         <span class="me-2">
             <a @click="goBack()" class="goback-btn">
                 <i class="fa-solid fa-arrow-left fa-xl"></i>
@@ -161,8 +212,6 @@ export default {
             Riepilogo dell'ordine
         </h2>
     </div>
-        <!--braintree payment-->
-    <form @submit.prevent="submitPayment" v-if="cart.length > 0">
         <div class="row">
             <div class="col-12 col-lg-7">
                             <div class="row g-3 mb-3">
@@ -262,5 +311,37 @@ export default {
     }
   }
 
+  .modal-content {
+  border-radius: 10px;
+}
+.modal-title {
+  color: red;
+}
 
+#message-confirm {
+  h1 {
+    font-size: 3.5rem;
+  }
+  div {
+    div {
+      position: relative;
+      img {
+        transform: rotateY(3.142rad);
+        
+      }
+    }
+    #grass {
+      width: 220px;
+      height: 10px;
+      position: absolute;
+      left: 44%;
+      top: 34%;
+      z-index: -1;
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+  
+}
 </style>
