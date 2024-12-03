@@ -161,16 +161,16 @@ export default {
 
       <h1 class="py-3">
             Ordine Confermato!
-        </h1>
-        <div>
+      </h1>
+
+        <div id="gif-container">
           <div>
             <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/ec787be8-371a-4698-8c42-4d6e8d7486ca/d7zqbfa-0f1e6646-a7a3-412f-965a-b1361f95f89c.gif" alt="driver">
           </div>
           <div id="grass">
-            <img src="https://media.istockphoto.com/id/612852170/it/foto/stadio-erba.jpg?s=612x612&w=0&k=20&c=yJlvE7ZhR7k0WghJSlXO7GgbF2BEDINxJeuYKH806NA=" alt="grass">
+            <img src="https://cdn.vectorstock.com/i/500p/15/74/pixel-art-grass-icon-retro-pixelated-green-vector-54061574.jpg" alt="grass">
           </div>
         </div>
-        
         
         <div class="py-4 fs-4">
             Grazie per averci scelto per il tuo ordine
@@ -182,25 +182,24 @@ export default {
     </div>
     
 
-    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="errorModalLabel">Errore</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="errorModalLabel">Errore</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {{ error }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+          </div>
+        </div>
       </div>
-      <div class="modal-body">
-        {{ error }}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-      </div>
-    </div>
   </div>
-</div>
 
-    
-        <!--braintree payment-->
+    <!--braintree payment-->
     <form @submit.prevent="submitPayment" v-if="cart.length > 0">
       <div class="d-flex align-items-center">
         <span class="me-2">
@@ -284,7 +283,6 @@ export default {
             </div>
         </div>
     </form>
-        <!--form-->
           
   </div>
 </template>
@@ -322,26 +320,25 @@ export default {
   h1 {
     font-size: 3.5rem;
   }
-  div {
-    div {
-      position: relative;
-      img {
-        transform: rotateY(3.142rad);
-        
-      }
+  #gif-container {
+    position: relative;
+    img {
+      transform: rotateY(3.142rad);
     }
+
     #grass {
       width: 220px;
-      height: 10px;
       position: absolute;
-      left: 44%;
-      top: 34%;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -30%;
       z-index: -1;
+
       img {
+        filter: brightness(120%);
         max-width: 100%;
       }
     }
   }
-  
 }
 </style>
