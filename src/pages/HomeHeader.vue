@@ -22,7 +22,7 @@ export default {
 
   <div id="carousel-container">
 
-    <!-- grafica -->
+    <!-- testi -->
     <div id="text" class="container-sm py-5">
 
       <div class="row align-items-center mt-5 text-white">
@@ -41,7 +41,7 @@ export default {
             {{ message }}
           </h4>
 
-          <button class="btn btn-outline-warning" type="submit">
+          <button class="btn btn-outline-warning rounded-pill px-4" type="submit">
               <a class="nav-link" href="#main">
                   {{ button }}
               </a>
@@ -53,12 +53,12 @@ export default {
         
     </div> 
 
-    <!-- contenuti absolute -->
-
+    <!-- deliveboo -->
     <div id="deliveboo">
       <img src="/deliveboo_bg.png" alt="deliveboo">
     </div>
 
+    <!-- carosello -->
     <div id="carouselExample" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
 
       <div class="carousel-inner">
@@ -74,22 +74,22 @@ export default {
             alt="pizza">
         </div>
         <div class="carousel-item">
-          <img src="https://img.freepik.com/foto-gratuito/tortilla-con-seppia-di-inchiostro-aggiunto-con-pollo-e-verdure_2829-10963.jpg?t=st=1733309973~exp=1733313573~hmac=fb92aab8aa0a25ea67fa50da014d86d50250c8aed725051f40e40c72f35d4095&w=2000"
+          <img src="https://img.freepik.com/foto-gratuito/tacos-messicani-con-carne-di-manzo-in-salsa-di-pomodoro-e-salsa_2829-14180.jpg?t=st=1733333617~exp=1733337217~hmac=70120fdc69da74204ae87fa3a25d6df940907b9263d65d6f6c667d681a3ac5f1&w=2000"
             class="d-block w-100"
-            alt="wrap">
+            alt="tacos">
         </div>
         <div class="carousel-item">
-          <img src="https://img.freepik.com/foto-gratuito/vista-dall-alto-gustoso-pesce-cotto-con-verdure-fresche-e-condimenti-sul-tavolo-scuro_140725-143764.jpg?t=st=1733310765~exp=1733314365~hmac=dfd82530c1cc2a8dffdeb3260cc13bfb7c8e259673fc2f23d800aacf45c76b1c&w=2000"
+          <img src="https://img.freepik.com/foto-gratuito/vista-dall-alto-gustoso-pesce-cotto-con-verdure-fresche-e-condimenti-sul-tavolo-scuro_140725-143764.jpg?t=st=1733332855~exp=1733336455~hmac=825b27ed78dfe96ad42d18a72bcbb99127a7db2a193e1b84d93f82bbb3cb3005&w=2000"
             class="d-block w-100 rotate-y"
             alt="fish">
         </div>
         <div class="carousel-item">
-          <img src="https://img.freepik.com/foto-gratuito/borscht-russo-ucraino-tradizionale-o-minestra-rossa-sulla-ciotola-vista-dall-alto_2829-11970.jpg?t=st=1733310391~exp=1733313991~hmac=07652b19776a54e55aa9fe106ece6b8d9fc045e60d70d6aac6452a411cb6222a&w=2000"
+          <img src="https://img.freepik.com/foto-gratuito/borscht-russo-ucraino-tradizionale-o-minestra-rossa-sulla-ciotola-vista-dall-alto_2829-11970.jpg?t=st=1733332947~exp=1733336547~hmac=2062d4b340ccc20b9af4791d30a0bb44eebe614a5bae056338bb1bc2ac9d41a9&w=2000"
             class="d-block w-100 rotate-y"
             alt="borscht">
         </div>
         <div class="carousel-item">
-          <img src="https://img.freepik.com/free-photo/top-view-cinnamon-roll-copy-space_23-2148904737.jpg?t=st=1733310253~exp=1733313853~hmac=d471763c6c6eedfd681c546d4529f27515d8f34f71586a12e24bf758b080df2e&w=2000"
+          <img src="https://img.freepik.com/foto-gratuito/vista-dall-alto-rotolo-di-cannella-e-copia-spazio_23-2148904737.jpg?t=st=1733333187~exp=1733336787~hmac=96752f236b178c9fea8be5103d21af7b6d6df0160dfa8812b1395baee9082f35&w=2000"
             class="d-block w-100"
             alt="breakfast">
         </div>
@@ -99,7 +99,7 @@ export default {
             alt="bruschetta">
         </div>
         <div class="carousel-item">
-          <img src="https://images.unsplash.com/photo-1648146298859-cfb19fa93d58?q=80&w=3271&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          <img src="https://img.freepik.com/foto-gratuito/disposizione-piana-dei-sushi-di-disposizione-con-lo-spazio-della-copia_23-2148224572.jpg?t=st=1733334022~exp=1733337622~hmac=4f182d0018cc95c9d8be20dd8965f0fb8fd57044ea9fb24b4ef97e0fd9ebf7f5&w=2000"
           class="d-block w-100"
           alt="sushi">
         </div>

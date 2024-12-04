@@ -146,7 +146,7 @@
     <header>
 
     <!-- Navbar breakpoint dispositivi desktop -->
-    <div class="container-sm d-none d-md-block">
+    <div class="container-sm">
 
         <nav class="navbar navbar-expand-lg my-1">
 
@@ -158,13 +158,13 @@
                 </router-link>
 
                 <button type="button"
-                        class="btn btn-outline-dark border-dark-subtle position-relative"
+                        class="btn btn-outline-dark border-dark-subtle position-relative px-4 rounded-pill"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasWithBothOptions"
                         aria-controls="offcanvasWithBothOptions">
 
                         <i class="fa-solid fa-cart-shopping text-warning me-2"></i>
-                        Carrello
+                        <span class="d-sm-none d-lg-inline-block">Carrello</span>
                         <span v-if="this.cart.length>0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-black">
                             {{ cartCount }}
                         </span>
@@ -177,15 +177,15 @@
     </div>
 
     <!-- Navbar breakpoint dispositivi mobile -->
-    <div class="container-sm d-block d-md-none">
+    <!-- <div class="container-sm d-block d-md-none">
 
         <nav class="navbar navbar-expand-lg">
             
             <div class="collapse navbar-collapse d-flex justify-content-between">
 
-                <a class="navbar-brand w-75 fs-1" href="#">
-                    <i class="fa-solid fa-burger text-warning"></i> 
-                    Delive<strong class="text-warning">Boo</strong>
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                    <img class="logo me-2" src="/public/DeliveBoo.png" alt="Deliveboo">
+                    <span class="fs-5"> Delive<strong class="text-warning">Boo</strong> </span>
                 </a>
 
                 <button class="btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -194,53 +194,48 @@
 
                 <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                     
-                    <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasRightLabel">
-                        Deliveboo
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <div class="offcanvas-header pt-4">
+                        <h5 class="offcanvas-title" id="offcanvasRightLabel">
+                        <span class="fs-5"> Delive<strong class="text-warning">Boo</strong> </span>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
+
                     <div class="offcanvas-body">
-                        <a class="nav-link" href="http://127.0.0.1:8000/register">
-                            <i class="fa-solid fa-house text-warning me-2"></i>
-                                Registrati 
-                        </a>
-                        <a class="nav-link mt-3" href="http://127.0.0.1:8000/login">
-                            <i class="fa-solid fa-house text-warning me-2"></i>
-                                Accedi 
+                        <a class="nav-link" href="http://127.0.0.1:8000/login">
+                            Dashoboard o accedi 
                         </a>
                         <div>
                             <hr class="text-warning">
                         </div>
-                        <a class="nav-link mt-3" href="#">
+
+                        <div class="text-warning">
+                            <a class="nav-link mt-3" href="#">
                             Chi Siamo
-                        </a>
-                        <a class="nav-link mt-3" href="#">
-                            Contatti
-                        </a>
-                        <a class="nav-link mt-3" href="#">
-                            Informativa sulla privacy
-                        </a>
-                        <a class="nav-link mt-3" href="#">
-                            Partner
-                        </a>
-                        <a class="nav-link mt-3" href="#">
-                            FAQ
-                        </a>
+                            </a>
+                            <a class="nav-link mt-3" href="#">
+                                Contatti
+                            </a>
+                            <a class="nav-link mt-3" href="#">
+                                Informativa sulla privacy
+                            </a>
+                            <a class="nav-link mt-3" href="#">
+                                Partner
+                            </a>
+                            <a class="nav-link mt-3" href="#">
+                                FAQ
+                            </a>
+                        </div>
+
                     </div>
 
                 </div>
 
             </div>
 
-            <form class="d-flex my-2 w-100" role="search">
-                <input class="form-control me-2" type="search" placeholder="Cerca ristoratnte per nome o tipologia" aria-label="Search">
-                <button class="btn btn-outline-dark border-dark-subtle" type="submit">Cerca</button>
-            </form>
-
         </nav>
 
-    </div>
+    </div> -->
 
     </header>
 
@@ -261,23 +256,28 @@
             </div>
 
             <div class="offcanvas-body">
-                <p>Ecco i dettagli del tuo ordine:</p>
+
+                <div v-if="cart.length != 0">
+                    <p>Ecco i dettagli del tuo ordine:</p>
+                    <hr>
+                </div>
 
                 <div v-if="cart.length === 0">
                     <p>Il carrello è vuoto.</p>
                 </div>
 
                 <div v-else>
-                    <div class="card mb-4">
+                    <div class="mb-4">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center" v-for="(item, index) in cart" :key="index">
+                                
                                 <div>
 
-                                    <strong>{{ item.item_name }}</strong> - {{ item.price }} €
+                                    <strong>{{ item.item_name }}</strong>
                                     <br>
-                                    <small class="text-muted">
-                                        Totale: {{ (item.price * item.quantity).toFixed(2) }} €
-                                    </small>
+                                    <small> {{ item.price }} € </small>
+                                    <br>
+                                    Totale: <strong> {{ (item.price * item.quantity).toFixed(2) }} € </strong>
 
                                 </div>
 
@@ -288,7 +288,7 @@
                                     
                                     <button class="btn btn-sm btn-outline-warning ms-2 quantity-button" @click="increaseQuantity(item)">+</button>
                                     
-                                    <button class="btn btn-sm btn-outline-danger ms-3" @click="removeItem(item)">
+                                    <button class="btn btn-sm btn-outline-dark border-dark-subtle text-warning rounded-pill ms-3" @click="removeItem(item)">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
 
@@ -297,18 +297,21 @@
                         </ul>
                     </div>
 
+                    <hr>
+
                     <div class="d-flex justify-content-between align-items-center my-3">
                         <h5>Totale:</h5>
                         <h5 class="text-end">{{ cartTotal }} €</h5>
                     </div>
 
-            <router-link 
-                    :to="{ name: 'checkout', params: { slug: restaurant.slug } }"
-                >
-                    <button class="btn btn-outline-dark border-dark-subtle btn-warning">
-                        Vai al checkout
-                    </button>
-            </router-link>
+                    <router-link 
+                            :to="{ name: 'checkout', params: { slug: restaurant.slug } }"
+                        >
+                            <button class="btn btn-outline-dark border-dark-subtle btn-warning rounded-pill px-4">
+                                Vai al checkout
+                            </button>
+                    </router-link>
+                    
                 </div>
             </div>
         </div>
@@ -316,7 +319,7 @@
         <!-- card piatti -->
         <div class="row">
 
-            <div class="col-sm-12 col-md-6 col-lg-3 mb-4 d-flex" v-for="menu_item in restaurant.menu_items.filter(item => item.is_visible)" :key="menu_item.id">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3 mb-4 d-flex" v-for="menu_item in restaurant.menu_items.filter(item => item.is_visible)" :key="menu_item.id">
 
                 <div id="menuitem" class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
 
@@ -367,9 +370,9 @@
     margin-bottom: 100px;
     }
     .col-md-6{
-    .card{
-        margin-bottom: 80px;
-    }
+        .card{
+            margin-bottom: 80px;
+        }
     }
     .quantity-button{
     width: 25px;
