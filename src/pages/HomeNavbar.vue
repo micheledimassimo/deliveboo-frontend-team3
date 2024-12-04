@@ -14,7 +14,7 @@ export default {
 
   <div class="container-sm d-none d-md-block">
 
-      <nav class="navbar navbar-expand-lg mt-2">
+      <nav class="navbar navbar-expand-lg my-2">
 
         <div class="collapse navbar-collapse d-flex justify-content-between">
 
@@ -22,11 +22,6 @@ export default {
             <i class="fa-solid fa-burger text-warning"></i> 
             Delive<strong class="text-warning">Boo</strong>
           </a>
-
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Cerca" aria-label="Search">
-            <button class="btn btn-outline-dark border-dark-subtle" type="submit">Cerca</button>
-          </form>
 
           <button class="btn btn-outline-dark border-dark-subtle" type="submit">
             <a class="nav-link" href="http://127.0.0.1:8000/login">
@@ -97,14 +92,9 @@ export default {
 
       </div>
 
-      <form class="d-flex my-2 w-100" role="search">
-          <input class="form-control me-2" type="search" placeholder="Cerca ristoratnte per nome o tipologia" aria-label="Search">
-          <button class="btn btn-outline-dark border-dark-subtle" type="submit">Cerca</button>
-        </form>
-
     </nav>
 
-</div>
+  </div>
 
 </template>
 

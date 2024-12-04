@@ -172,14 +172,9 @@
 
     <HomeHeader />
   
-    <main id="main">
+    <main id="main" class="pt-5">
 
-        <div class="container-sm mt-5">
-            <div class="text-start my-4 mx-2">
-                <h3>
-                    Dai un'occhiata <span class="text-warning">ad alcuni ristoranti</span>
-                </h3>
-            </div>
+        <div class="container-sm">
 
             <div class="mb-5">
                 <h3>Seleziona le <span class="text-warning">Tipologie</span> del Ristorante</h3>
