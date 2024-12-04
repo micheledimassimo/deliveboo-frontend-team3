@@ -14,13 +14,13 @@ export default {
 
   <div class="container-sm d-none d-md-block">
 
-      <nav class="navbar navbar-expand-lg my-2">
+      <nav class="navbar navbar-expand-lg my-1">
 
         <div class="collapse navbar-collapse d-flex justify-content-between">
 
-          <a class="navbar-brand" href="#">
-            <i class="fa-solid fa-burger text-warning"></i> 
-            Delive<strong class="text-warning">Boo</strong>
+          <a class="navbar-brand d-flex align-items-center" href="#">
+            <img class="logo me-2" src="/public/DeliveBoo.png" alt="Deliveboo">
+            <span class="fs-5"> Delive<strong class="text-warning">Boo</strong> </span>
           </a>
 
           <button class="btn btn-outline-dark border-dark-subtle" type="submit">
@@ -53,7 +53,7 @@ export default {
         </button>
 
         <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-          
+
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasRightLabel">
               Deliveboo
@@ -106,4 +106,8 @@ export default {
 
 <style lang="scss" scoped>
     @use '../assets/scss/main.scss' as *;
+
+    // .logo{
+    //   max-width: 50px;
+    // }
 </style>

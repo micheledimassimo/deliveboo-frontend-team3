@@ -56,10 +56,10 @@ export default {
     <!-- contenuti absolute -->
 
     <div id="deliveboo">
-      <img src="/DELIVEBOO.png" alt="deliveboo">
+      <img src="/deliveboo_bg.png" alt="deliveboo">
     </div>
 
-    <div id="carouselExample" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+    <div id="carouselExample" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
 
       <div class="carousel-inner">
 
@@ -123,7 +123,7 @@ export default {
     #carousel-container{
       max-width: 100%;
       position: relative;
-      height: calc(100vh - 56px);
+      height: calc(100vh - 76px);
       overflow: hidden;
 
       &::before {

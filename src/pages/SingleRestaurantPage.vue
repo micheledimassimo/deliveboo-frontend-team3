@@ -148,13 +148,13 @@
     <!-- Navbar breakpoint dispositivi desktop -->
     <div class="container-sm d-none d-md-block">
 
-        <nav class="navbar navbar-expand-lg mt-2">
+        <nav class="navbar navbar-expand-lg my-1">
 
             <div class="collapse navbar-collapse d-flex justify-content-between">
 
-                <router-link class="navbar-brand" to="/">
-                <i class="fa-solid fa-burger text-warning"></i> 
-                Delive<strong class="text-warning">Boo</strong>
+                <router-link class="navbar-brand d-flex align-items-center" to="/">
+                    <img class="logo me-2" src="/public/DeliveBoo.png" alt="Deliveboo">
+                    Delive<strong class="text-warning">Boo</strong>
                 </router-link>
 
                 <button type="button"
