@@ -64,44 +64,44 @@ export default {
       <div class="carousel-inner">
 
         <div class="carousel-item active">
-          <img src="https://media-assets.lacucinaitaliana.it/photos/61fae7f75f740bfb879f54e8/master/pass/iStock-636305290.jpg"
+          <img src="/public/piatti/burger.jpg"
           class="d-block w-100"
           alt="hamburger">
         </div>
         <div class="carousel-item">
-          <img src="https://img.freepik.com/foto-gratuito/tempo-di-pizza-gustosa-pizza-tradizionale-fatta-in-casa-ricetta-italiana_144627-42528.jpg?t=st=1733316536~exp=1733320136~hmac=0338fa9f0836bccfa46d2ce8f1dde2595751f443d5bdf52dcee5c065e5e6a222&w=2000"
+          <img src="/public/piatti/pizza.jpg"
             class="d-block w-100 rotate-y"
             alt="pizza">
         </div>
         <div class="carousel-item">
-          <img src="https://img.freepik.com/foto-gratuito/tacos-messicani-con-carne-di-manzo-in-salsa-di-pomodoro-e-salsa_2829-14180.jpg?t=st=1733333617~exp=1733337217~hmac=70120fdc69da74204ae87fa3a25d6df940907b9263d65d6f6c667d681a3ac5f1&w=2000"
+          <img src="/public/piatti/tacos.jpg"
             class="d-block w-100"
             alt="tacos">
         </div>
         <div class="carousel-item">
-          <img src="https://img.freepik.com/foto-gratuito/vista-dall-alto-gustoso-pesce-cotto-con-verdure-fresche-e-condimenti-sul-tavolo-scuro_140725-143764.jpg?t=st=1733332855~exp=1733336455~hmac=825b27ed78dfe96ad42d18a72bcbb99127a7db2a193e1b84d93f82bbb3cb3005&w=2000"
+          <img src="/public/piatti/fish.jpg"
             class="d-block w-100 rotate-y"
             alt="fish">
         </div>
         <div class="carousel-item">
-          <img src="https://img.freepik.com/foto-gratuito/borscht-russo-ucraino-tradizionale-o-minestra-rossa-sulla-ciotola-vista-dall-alto_2829-11970.jpg?t=st=1733332947~exp=1733336547~hmac=2062d4b340ccc20b9af4791d30a0bb44eebe614a5bae056338bb1bc2ac9d41a9&w=2000"
+          <img src="/public/piatti/borscht.jpg"
             class="d-block w-100 rotate-y"
             alt="borscht">
         </div>
         <div class="carousel-item">
-          <img src="https://img.freepik.com/foto-gratuito/vista-dall-alto-rotolo-di-cannella-e-copia-spazio_23-2148904737.jpg?t=st=1733333187~exp=1733336787~hmac=96752f236b178c9fea8be5103d21af7b6d6df0160dfa8812b1395baee9082f35&w=2000"
+          <img src="/public/piatti/cinnamo.jpg"
             class="d-block w-100"
-            alt="breakfast">
+            alt="cinnamo">
         </div>
         <div class="carousel-item">
-          <img src="https://img.freepik.com/foto-gratuito/bruschetta-di-salmone-affumicata-con-avocado-e-crema-di-formaggio-servita-con-insalata_140725-1619.jpg?t=st=1733310731~exp=1733314331~hmac=fda1fae013f10bb2654f17f88839c0b90c3a7f1780eee8bde737fcb339660221&w=2000"
+          <img src="/public/piatti/bruschetta.jpg"
             class="d-block w-100"
             alt="bruschetta">
         </div>
         <div class="carousel-item">
-          <img src="https://img.freepik.com/foto-gratuito/disposizione-piana-dei-sushi-di-disposizione-con-lo-spazio-della-copia_23-2148224572.jpg?t=st=1733334022~exp=1733337622~hmac=4f182d0018cc95c9d8be20dd8965f0fb8fd57044ea9fb24b4ef97e0fd9ebf7f5&w=2000"
-          class="d-block w-100"
-          alt="sushi">
+          <img src="/public/piatti/sushi.jpg"
+            class="d-block w-100"
+            alt="sushi">
         </div>
 
       </div>
