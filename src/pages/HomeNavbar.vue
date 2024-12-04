@@ -53,12 +53,14 @@ export default {
         </button>
 
         <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+          
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasRightLabel">
               Deliveboo
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
+
           <div class="offcanvas-body">
             <a class="nav-link" href="http://127.0.0.1:8000/register">
                 <i class="fa-solid fa-house text-warning me-2"></i>
@@ -71,21 +73,25 @@ export default {
             <div>
               <hr class="text-warning">
             </div>
-            <a class="nav-link mt-3" href="#">
-              Chi Siamo
-            </a>
-            <a class="nav-link mt-3" href="#">
-              Contatti
-            </a>
-            <a class="nav-link mt-3" href="#">
-              Informativa sulla privacy
-            </a>
-            <a class="nav-link mt-3" href="#">
-              Partner
-            </a>
-            <a class="nav-link mt-3" href="#">
-              FAQ
-            </a>
+
+            <div class="text-warning">
+                <a class="nav-link mt-3" href="#">
+                Chi Siamo
+              </a>
+              <a class="nav-link mt-3" href="#">
+                Contatti
+              </a>
+              <a class="nav-link mt-3" href="#">
+                Informativa sulla privacy
+              </a>
+              <a class="nav-link mt-3" href="#">
+                Partner
+              </a>
+              <a class="nav-link mt-3" href="#">
+                FAQ
+              </a>
+            </div>
+
           </div>
 
         </div>
