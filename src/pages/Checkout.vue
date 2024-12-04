@@ -142,20 +142,19 @@ export default {
 <template>
   <div class="container-sm">
      
-  <!--navbar-->
-  <nav class="navbar navbar-expand-lg mt-2 mb-4">
+    <!--navbar-->
+    <nav class="navbar navbar-expand-lg my-1 mb-4">
 
-        <div class="collapse navbar-collapse d-flex justify-content-between">
+          <div class="collapse navbar-collapse d-flex justify-content-between">
 
-        <router-link to="/" class="navbar-brand" href="#">
-          <i class="fa-solid fa-burger text-warning"></i> 
-          Delive<strong class="text-warning">Boo</strong>
-        </router-link>
+            <router-link class="navbar-brand d-flex align-items-center" to="/">
+              <img class="logo me-2" src="/public/DeliveBoo.png" alt="Deliveboo">
+              Delive<strong class="text-warning">Boo</strong>
+            </router-link>
 
-      </div>
+        </div>
 
-  </nav>
-
+    </nav>
 
     <div v-if="message" id="message-confirm" class="container text-center">
 
@@ -163,26 +162,26 @@ export default {
             Ordine Confermato!
       </h1>
 
-        <div id="gif-container">
-          <div>
-            <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/ec787be8-371a-4698-8c42-4d6e8d7486ca/d7zqbfa-0f1e6646-a7a3-412f-965a-b1361f95f89c.gif" alt="driver">
-          </div>
-          <div id="grass">
-            <img src="https://cdn.vectorstock.com/i/500p/15/74/pixel-art-grass-icon-retro-pixelated-green-vector-54061574.jpg" alt="grass">
-          </div>
+      <div id="gif-container">
+        <div>
+          <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/ec787be8-371a-4698-8c42-4d6e8d7486ca/d7zqbfa-0f1e6646-a7a3-412f-965a-b1361f95f89c.gif" alt="driver">
         </div>
+        <div id="grass">
+          <img src="https://cdn.vectorstock.com/i/500p/15/74/pixel-art-grass-icon-retro-pixelated-green-vector-54061574.jpg" alt="grass">
+        </div>
+      </div>
         
-        <div class="py-4 fs-4">
-            Grazie per averci scelto per il tuo ordine
-        </div>
-        <div class="fs-4">
-            Il tuo ordine è in preparazione, ti avviseremo quando il rider avra ritirato l'ordine dal ristorante
-        </div>
+      <div class="py-4 fs-4">
+          Grazie per averci scelto per il tuo ordine
+      </div>
+
+      <div class="fs-4">
+          Il tuo ordine è in preparazione, ti avviseremo quando il rider avra ritirato l'ordine dal ristorante
+      </div>
 
     </div>
     
-
-  <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -197,46 +196,47 @@ export default {
           </div>
         </div>
       </div>
-  </div>
+    </div>
 
     <!--braintree payment-->
     <form @submit.prevent="submitPayment" v-if="cart.length > 0">
-      <div class="d-flex align-items-center">
-        <span class="me-2">
-            <a @click="goBack()" class="goback-btn">
-                <i class="fa-solid fa-arrow-left fa-xl"></i>
-            </a>
-        </span>
-        <h2>
-            Riepilogo dell'ordine
-        </h2>
-    </div>
+          <div class="d-flex align-items-center">
+            <span class="me-2">
+                <a @click="goBack()" class="goback-btn">
+                    <i class="fa-solid fa-arrow-left fa-xl"></i>
+                </a>
+            </span>
+            <h2>
+                Riepilogo dell'ordine
+            </h2>
+        </div>
         <div class="row">
-            <div class="col-12 col-lg-7">
-                            <div class="row g-3 mb-3">
-                <div class="col-md-6">
-                    <label for="customer_email" class="form-label">Email</label>
-                    <input type="email" v-model="newOrder.customer_email" class="form-control" id="customer_email" minlength="6" maxlength="255" placeholder="Inserisci la tua email" required />
-                </div>
 
-                <div class="col-md-6">
-                    <label for="customer_name" class="form-label">Nome</label>
-                    <input type="text" v-model="newOrder.customer_name" class="form-control" id="customer_name" minlength="3" maxlength="64" placeholder="Inserisci il tuo nome" required />
-                </div>
+            <div class="col-12 col-lg-7">
+                <div class="row g-3 mb-3">
+                  <div class="col-md-6">
+                      <label for="customer_email" class="form-label">Email</label>
+                      <input type="email" v-model="newOrder.customer_email" class="form-control" id="customer_email" minlength="6" maxlength="255" placeholder="Inserisci la tua email" required />
+                  </div>
+
+                  <div class="col-md-6">
+                      <label for="customer_name" class="form-label">Nome</label>
+                      <input type="text" v-model="newOrder.customer_name" class="form-control" id="customer_name" minlength="3" maxlength="64" placeholder="Inserisci il tuo nome" required />
+                  </div>
                 </div>
 
                 <div class="row g-3 mb-3">
-                <div class="col-md-6">
-                    <label for="customer_address" class="form-label">Indirizzo</label>
-                    <input type="text" v-model="newOrder.customer_address" class="form-control" id="customer_address" minlength="3" maxlength="255" placeholder="Inserisci il tuo indirizzo" required />
-                </div>
+                  <div class="col-md-6">
+                      <label for="customer_address" class="form-label">Indirizzo</label>
+                      <input type="text" v-model="newOrder.customer_address" class="form-control" id="customer_address" minlength="3" maxlength="255" placeholder="Inserisci il tuo indirizzo" required />
+                  </div>
 
-                <div class="col-md-6">
-                    <label for="customer_number" class="form-label">Numero di Telefono</label>
-                    <input type="text" v-model="newOrder.customer_number" class="form-control" id="customer_number" minlength="10" maxlength="15" placeholder="Inserisci il tuo numero di telefono" required />
+                  <div class="col-md-6">
+                      <label for="customer_number" class="form-label">Numero di Telefono</label>
+                      <input type="text" v-model="newOrder.customer_number" class="form-control" id="customer_number" minlength="10" maxlength="15" placeholder="Inserisci il tuo numero di telefono" required />
+                  </div>
                 </div>
-                </div>
-                
+                  
                 <div class="my-3">
                     <div id="dropin-container"></div>
                 </div>
@@ -281,6 +281,7 @@ export default {
                     </div>
                 </div>
             </div>
+            
         </div>
     </form>
           
