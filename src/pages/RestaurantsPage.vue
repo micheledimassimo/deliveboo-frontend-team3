@@ -285,7 +285,7 @@
                         </div>
 
                         <div>
-                            <router-link class="btn btn-outline-warning text-black rounded-pill mb-3" :to="{ name: 'restaurant-show', params: { slug: restaurant.slug }}">
+                            <router-link class="btn btn-outline-warning text-black rounded-pill mb-3 px-4" :to="{ name: 'restaurant-show', params: { slug: restaurant.slug }}">
                                 Menu
                             </router-link>
                         </div>

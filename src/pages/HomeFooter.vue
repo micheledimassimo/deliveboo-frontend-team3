@@ -14,24 +14,27 @@ export default {
 </script>
 
 <template>
-  <footer class="container-sm py-5">
-    <div class="d-flex justify-content-between">
-        <ul v-for="(link,i) in store.footerLinks" :key="i">
 
-          <h3>
-            {{ link.title }}
-          </h3>
-          <li v-for="(item,i) in link.links" :key="i" class="list-group-item">
+  <div class="bg-dark mt-5">
+      <footer class="container-sm py-5">
+        <div class="d-flex justify-content-between">
+            <ul v-for="(link,i) in store.footerLinks" :key="i">
 
-            <a href="#">
-              {{ item.nameLink }}
-            </a>
-            
-          </li>
-        </ul>
-      
-    </div>
-  </footer>
+              <h3 class="text-white">
+                {{ link.title }}
+              </h3>
+              <li v-for="(item,i) in link.links" :key="i" class="list-group-item">
+
+                <a href="#">
+                  {{ item.nameLink }}
+                </a>
+                
+              </li>
+            </ul>
+        </div>
+    </footer>
+  </div>
+  
 </template>
 
 <style lang="scss" scoped>
