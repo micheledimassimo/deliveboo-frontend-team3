@@ -17,12 +17,10 @@
 
             <div class="collapse navbar-collapse d-flex justify-content-between">
 
-                <a class="navbar-brand d-flex align-items-center" href="#">
+                <router-link class="navbar-brand d-flex align-items-center" to="/">
                     <img class="logo me-2" src="/public/DeliveBoo.png" alt="Deliveboo">
-                    <span class="fs-5">
-                        Delive<strong class="text-warning">Boo</strong>
-                    </span>
-                </a>
+                    Delive<strong class="text-warning">Boo</strong>
+                </router-link>
 
                 <button class="btn btn-outline-dark border-dark-subtle rounded-pill text-warning px-4" type="submit">
                     <a class="nav-link" href="http://127.0.0.1:8000/login">
@@ -50,7 +48,7 @@
                     <i class="fa-solid fa-bars fa-2x text-warning"></i>
                 </button>
 
-                <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas offcanvas-end offcanvas-width" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
 
                     <div class="offcanvas-header pt-4">
                         <h5 class="offcanvas-title" id="offcanvasRightLabel">

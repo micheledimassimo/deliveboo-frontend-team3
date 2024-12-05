@@ -1,147 +1,159 @@
 <script>
 
-  import axios from 'axios';
+    import axios from 'axios';
 
-  import dropin from 'braintree-web-drop-in';
+    import dropin from 'braintree-web-drop-in';
 
-  import { Modal } from 'bootstrap';
+    import { Modal } from 'bootstrap';
 
-  export default {
+    export default {
     data() {
-      return {
+        return {
         defaultUrl: 'http://127.0.0.1:8000/api/orders',
         cart: [],
         loading: false,
         dropinInstance: null,
         newOrder: {
-          customer_email: '',
-          customer_name: '',
-          customer_address: '',
-          customer_number: '',
-          total_price: 0,  
+            customer_email: '',
+            customer_name: '',
+            customer_address: '',
+            customer_number: '',
+            total_price: 0,  
         },
         message: '',
         error: '',
-      };
+        };
     },
     computed: {
-      cartTotal() {
+        cartTotal() {
         return this.cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
-      },
+        },
     },
     mounted() {
-      this.loadCart(); 
-      this.initializeDropin(); 
+        this.loadCart(); 
+        this.initializeDropin(); 
+        this.verifyRestaurant();
     },
     methods: {
-      goBack() {
-          this.$router.back();
-      },
-      async initializeDropin() {
-          try {
-              const response = await axios.get('http://localhost:8000/api/braintree/token');
-              const clientToken = response.data.clientToken;
+        async verifyRestaurant() {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/restaurants/${this.$route.params.slug}`);
+                if (!response.data.success) {
+                    this.$router.push({ name: 'not-found' }); 
+                }
+            } catch (error) {
+                console.error('Errore durante la verifica del ristorante:', error);
+                this.$router.push({ name: 'not-found' }); 
+            }
+        },
+        goBack() {
+            this.$router.back();
+        },
+        async initializeDropin() {
+            try {
+                const response = await axios.get('http://localhost:8000/api/braintree/token');
+                const clientToken = response.data.clientToken;
 
-              this.dropinInstance = await dropin.create({
-              authorization: clientToken,
-              container: '#dropin-container',
-              });
-          } catch (error) {
-              console.error('Errore nella creazione del drop-in:', error);
-          }
-          },
-          async submitPayment() {
-      if (!this.dropinInstance) {
+                this.dropinInstance = await dropin.create({
+                authorization: clientToken,
+                container: '#dropin-container',
+                });
+            } catch (error) {
+                console.error('Errore nella creazione del drop-in:', error);
+            }
+            },
+            async submitPayment() {
+        if (!this.dropinInstance) {
         this.error = 'Drop-in non inizializzato!';
         this.showErrorModal();
         return;
-      }
+        }
 
-      this.loading = true;
+        this.loading = true;
 
-      try {
+        try {
         const payload = await this.dropinInstance.requestPaymentMethod();
         await axios.post('http://localhost:8000/api/braintree/checkout', {
-          nonce: payload.nonce,
-          amount: this.cartTotal
+            nonce: payload.nonce,
+            amount: this.cartTotal
         },
         this.sendOrder()
-      );
+        );
         /* this.message = 'Pagamento effettuato con successo!';
         this.error = ''; */
-      } catch (error) {
+        } catch (error) {
         console.error('Errore durante il pagamento:', error);
         this.error = 'Errore durante il pagamento. Riprova.';
         this.showErrorModal();
-      } finally {
+        } finally {
         this.loading = false;
-      }
+        }
     },
     showErrorModal() {
-      const modal = new Modal(document.getElementById('errorModal'));
-      modal.show();
+        const modal = new Modal(document.getElementById('errorModal'));
+        modal.show();
     },
-      loadCart() {
+        loadCart() {
         const cartItems = JSON.parse(localStorage.getItem(`cart_${this.$route.params.slug}`));
         
         if (cartItems && cartItems.length > 0) {
-          this.cart = cartItems;
-          this.newOrder.total_price = this.cartTotal; 
+            this.cart = cartItems;
+            this.newOrder.total_price = this.cartTotal; 
         } else {
-          this.error = 'Il carrello è vuoto. Non puoi procedere con l\'ordine.';
+            this.error = 'Il carrello è vuoto. Non puoi procedere con l\'ordine.';
         }
-      },
-      sendOrder() {
+        },
+        sendOrder() {
         if (!this.cart.length) {
-          this.error = 'Il carrello è vuoto.';
-          return;
+            this.error = 'Il carrello è vuoto.';
+            return;
         }
 
         const orderData = {
-          items: this.cart,
-          total_price: this.cartTotal, 
-          restaurant_slug: this.$route.params.slug,
-          customer: { 
-              email: this.newOrder.customer_email,
-              name: this.newOrder.customer_name,
-              address: this.newOrder.customer_address,
-              number: this.newOrder.customer_number,
-          },
-      };
+            items: this.cart,
+            total_price: this.cartTotal, 
+            restaurant_slug: this.$route.params.slug,
+            customer: { 
+                email: this.newOrder.customer_email,
+                name: this.newOrder.customer_name,
+                address: this.newOrder.customer_address,
+                number: this.newOrder.customer_number,
+            },
+        };
 
-          console.log("Sending Order Data:", orderData);
+            console.log("Sending Order Data:", orderData);
 
         axios
-          .post(this.defaultUrl, orderData)
-          .then((res) => {
+            .post(this.defaultUrl, orderData)
+            .then((res) => {
             this.message = 'Ordine inviato con successo!';
             this.error = '';
 
             localStorage.removeItem(`cart_${this.$route.params.slug}`);
 
             this.newOrder = {
-              customer_email: '',
-              customer_name: '',
-              customer_address: '',
-              customer_number: '',
-              total_price: 0,
+                customer_email: '',
+                customer_name: '',
+                customer_address: '',
+                customer_number: '',
+                total_price: 0,
             };
             this.cart = []; 
-          })
-          .catch((err) => {
+            })
+            .catch((err) => {
             console.log(err.response); 
             this.error = err.response?.data?.message || 'Errore durante l\'invio dell\'ordine. Controlla i dati e riprova.';
             this.message = '';
-          });
-      },
+            });
+        },
     },
-  };
+    };
+
 </script>
 
 <template>
-    <div id="checkout" class="container-sm">
-        
-        <nav class="navbar navbar-expand-lg my-1 mb-4">
+    <div class="container-sm">
+        <nav class="navbar navbar-expand-lg my-1">
             <div class="collapse navbar-collapse d-flex justify-content-between">
 
                 <router-link class="navbar-brand d-flex align-items-center" to="/">
@@ -151,6 +163,10 @@
 
             </div>
         </nav>
+    </div>
+
+    <div id="checkout" class="py-5">
+        <div class="container-sm">
 
         <div v-if="message" id="message-confirm" class="container text-center">
 
@@ -208,49 +224,49 @@
 
             <div class="row">
 
-                <div class="col-12 col-lg-7">
+                <div class="col-12 col-lg-7 mb-sm-4 mb-lg-0">
                     <div class="card shadow-sm border-0">
 
                         <div class="d-flex align-items-center card-header">
-                        <span class="me-2">
-                            <a @click="goBack()" class="goback-btn">
-                                <i class="fa-solid fa-arrow-left fs-4 pt-1"></i>
-                            </a>
-                        </span>
+                            <span class="me-2">
+                                <a @click="goBack()" class="goback-btn">
+                                    <i class="fa-solid fa-arrow-left fs-4 pt-1"></i>
+                                </a>
+                            </span>
 
-                        <h4 class="mb-0">
-                            Riepilogo dell'ordine
-                        </h4>
+                            <h4 class="mb-0">
+                                Riepilogo dell'ordine
+                            </h4>
                         </div>
 
                         <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="customer_email" class="form-label">Email</label>
-                                <input type="email" v-model="newOrder.customer_email" class="form-control" id="customer_email" minlength="6" maxlength="255" placeholder="Inserisci la tua email" required />
-                            </div>
-                            <div class="mb-3">
-                                <label for="customer_address" class="form-label">Indirizzo</label>
-                                <input type="text" v-model="newOrder.customer_address" class="form-control" id="customer_address" minlength="3" maxlength="255" placeholder="Inserisci il tuo indirizzo" required />
-                            </div>
-                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="customer_email" class="form-label">Email</label>
+                                        <input type="email" v-model="newOrder.customer_email" class="form-control" id="customer_email" minlength="6" maxlength="255" placeholder="Inserisci la tua email" required />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="customer_address" class="form-label">Indirizzo</label>
+                                        <input type="text" v-model="newOrder.customer_address" class="form-control" id="customer_address" minlength="3" maxlength="255" placeholder="Inserisci il tuo indirizzo" required />
+                                    </div>
+                                </div>
 
-                            <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="customer_name" class="form-label">Nome</label>
-                                <input type="text" v-model="newOrder.customer_name" class="form-control" id="customer_name" minlength="3" maxlength="64" placeholder="Inserisci il tuo nome" required />
-                            </div>
-                            <div class="mb-3">
-                                <label for="customer_number" class="form-label">Numero di Telefono</label>
-                                <input type="text" v-model="newOrder.customer_number" class="form-control" id="customer_number" minlength="10" maxlength="15" placeholder="Inserisci il tuo numero di telefono" required />
-                            </div>
-                            </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="customer_name" class="form-label">Nome</label>
+                                        <input type="text" v-model="newOrder.customer_name" class="form-control" id="customer_name" minlength="3" maxlength="64" placeholder="Inserisci il tuo nome" required />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="customer_number" class="form-label">Numero di Telefono</label>
+                                        <input type="text" v-model="newOrder.customer_number" class="form-control" id="customer_number" minlength="10" maxlength="15" placeholder="Inserisci il tuo numero di telefono" required />
+                                    </div>
+                                </div>
 
                             </div>
 
                             <div>
-                            <div id="dropin-container"></div>
+                                <div id="dropin-container"></div>
                             </div>
                         </div>
                         
@@ -315,23 +331,25 @@
             </div>
 
         </form>
-            
+
+        </div> 
     </div>
 </template>
 
 <style lang="scss">
-  @use '../assets/scss/main.scss' as *;
+    @use '../assets/scss/main.scss' as *;
 
-  #checkout{
-    min-height: calc(100vh - 300px);
-  }
+    #checkout{
+        min-height: calc(100vh - 325px);
+        background-color: rgb(255, 246, 235);
+    }
 
-  .goback-btn {
+    .goback-btn {
     cursor: pointer;
     color: black;
-  }
+    }
 
-  .card {
+    .card {
     margin-left: 30px;
     border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
@@ -343,27 +361,27 @@
         font-size: 1.2rem;
         font-weight: 700;
     }
-  }
+    }
 
-  .modal-content {
+    .modal-content {
     border-radius: 10px;
-  }
+    }
 
-  .modal-title {
+    .modal-title {
     color: red;
-  }
+    }
 
-  #message-confirm {
+    #message-confirm {
     h1 {
-      font-size: 3.5rem;
+        font-size: 3.5rem;
     }
     #gif-container {
-      position: relative;
-      img {
+        position: relative;
+        img {
         transform: rotateY(3.142rad);
-      }
+        }
 
-      #grass {
+        #grass {
         width: 220px;
         position: absolute;
         left: 50%;
@@ -372,10 +390,10 @@
         z-index: -1;
 
         img {
-          filter: brightness(120%);
-          max-width: 100%;
+            filter: brightness(120%);
+            max-width: 100%;
         }
-      }
+        }
     }
-  }
+    }
 </style>

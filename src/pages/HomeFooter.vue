@@ -13,7 +13,7 @@
 
 <template>
 
-    <div class="bg-dark mt-5">
+    <div class="bg-dark">
         <footer class="container-sm py-5">
             <div class="d-flex justify-content-between">
 

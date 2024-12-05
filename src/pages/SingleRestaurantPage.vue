@@ -53,6 +53,9 @@
                             this.cart = validCart;
                             this.saveCart();
                         }
+                    })
+                    .catch(()=>{
+                        this.$router.push({name: 'not-found'})
                     });
             },
             goToCheckout() {
@@ -160,7 +163,7 @@
                             aria-controls="offcanvasWithBothOptions">
 
                             <i class="fa-solid fa-cart-shopping text-warning me-2"></i>
-                            <span class="d-sm-none d-lg-inline-block">Carrello</span>
+                            <span class="d-none d-lg-inline-block">Carrello</span>
                             <span v-if="this.cart.length>0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-black">
                                 {{ cartCount }}
                             </span>
@@ -174,141 +177,148 @@
 
     </header>
 
-    <div class="container mt-5" v-if="restaurant != null">
-        <div class="d-flex justify-content-between">
-            <h1>
-                {{ restaurant.restaurant_name }}
-            </h1>
-        </div>
-
-        <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-            
-            <div class="offcanvas-header">
-                <h4 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
-                    Carrello
-                </h4>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <div id="cards-container">
+        <div class="container-sm pt-4" v-if="restaurant != null">
+            <div class="d-flex justify-content-between">
+                <h1>
+                    {{ restaurant.restaurant_name }}
+                </h1>
             </div>
 
-            <div class="offcanvas-body">
-
-                <div v-if="cart.length != 0">
-                    <p>Ecco i dettagli del tuo ordine:</p>
-                    <hr>
+            <div class="offcanvas offcanvas-end offcanvas-width" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                
+                <div class="offcanvas-header">
+                    <h4 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
+                        Carrello
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
 
-                <div v-if="cart.length === 0">
-                    <p>Il carrello è vuoto.</p>
-                </div>
+                <div class="offcanvas-body">
 
-                <div v-else>
-                    <div class="mb-4">
-                        <ul class="list-group list-group-flush">
-
-                            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="(item, index) in cart" :key="index">
-                                <div>
-                                    <strong>{{ item.item_name }}</strong>
-                                    <br>
-                                    <small> {{ item.price }} € </small>
-                                    <br>
-                                    Totale: <strong> {{ (item.price * item.quantity).toFixed(2) }} € </strong>
-                                </div>
-
-                                <div class="d-flex align-items-center">
-                                    
-                                    <button class="btn btn-sm btn-outline-warning me-2 quantity-button" @click="decreaseQuantity(item)">-</button>
-                                    <span>{{ item.quantity }}</span>
-                                    
-                                    <button class="btn btn-sm btn-outline-warning ms-2 quantity-button" @click="increaseQuantity(item)">+</button>
-                                    
-                                    <button class="btn btn-sm btn-outline-dark border-dark-subtle text-warning rounded-pill ms-3" @click="removeItem(item)">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-
-                                </div>
-                            </li>
-
-                        </ul>
+                    <div v-if="cart.length != 0">
+                        <p>Ecco i dettagli del tuo ordine:</p>
+                        <hr>
                     </div>
 
-                    <hr>
-
-                    <div class="d-flex justify-content-between align-items-center my-3">
-                        <h5>
-                            Totale:
-                        </h5>
-                        <h5 class="text-end">
-                            {{ cartTotal }} €
-                        </h5>
+                    <div v-if="cart.length === 0">
+                        <p>Il carrello è vuoto.</p>
                     </div>
 
-                    <router-link 
-                            :to="{ name: 'checkout', params: { slug: restaurant.slug } }"
-                        >
-                            <button class="btn btn-outline-dark border-dark-subtle btn-warning rounded-pill px-4">
-                                Vai al checkout
-                            </button>
-                    </router-link>
-                    
-                </div>
+                    <div v-else>
+                        <div class="mb-4">
+                            <ul class="list-group list-group-flush">
 
-            </div>
+                                <li class="list-group-item d-flex justify-content-between align-items-center" v-for="(item, index) in cart" :key="index">
+                                    <div>
+                                        <strong>{{ item.item_name }}</strong>
+                                        <br>
+                                        <small> {{ item.price }} € </small>
+                                        <br>
+                                        Totale: <strong> {{ (item.price * item.quantity).toFixed(2) }} € </strong>
+                                    </div>
 
-        </div>
+                                    <div class="d-flex align-items-center">
+                                        
+                                        <button class="btn btn-sm btn-outline-warning me-2 quantity-button" @click="decreaseQuantity(item)">-</button>
+                                        <span>{{ item.quantity }}</span>
+                                        
+                                        <button class="btn btn-sm btn-outline-warning ms-2 quantity-button" @click="increaseQuantity(item)">+</button>
+                                        
+                                        <button class="btn btn-sm btn-outline-dark border-dark-subtle text-warning rounded-pill ms-3" @click="removeItem(item)">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
 
-        <div class="row">
+                                    </div>
+                                </li>
 
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3 mb-4 d-flex" v-for="menu_item in restaurant.menu_items.filter(item => item.is_visible)" :key="menu_item.id">
-
-                <div id="menuitem" class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
-
-                    <img :src="menu_item.image" class="rounded-circle border border-dark-subtle border-1 shadow-sm" :alt="menu_item.item_name">
-
-                    <div class="card-body text-center">
-                        <h6 class="card-title mb-2 fw-bold">
-                            {{ menu_item.item_name }}
-                        </h6>
-                        <p class="mb-2">
-                            {{ menu_item.description }}
-                        </p>
-                    </div>
-
-                    <div class="d-flex align-items-center justify-content-evenly mb-2">
-                        <div class="badge rounded-pill text-bg-warning">
-                            {{ menu_item.price }} € 
+                            </ul>
                         </div>
 
-                        <button class="add-to-cart"
-                            @click="addToCart(menu_item)"
-                            :class="{ 'add-to-cart': true, 'added': menu_item.isAdded }"
-                            :disabled="menu_item.isAdded"
-                        >
-                            <div class="default">Aggiungi</div>
-                            <div class="cart">
-                                <div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
-                            <div class="dots"></div>
-                        </button>
+                        <hr>
+
+                        <div class="d-flex justify-content-between align-items-center my-3">
+                            <h5>
+                                Totale:
+                            </h5>
+                            <h5 class="text-end">
+                                {{ cartTotal }} €
+                            </h5>
+                        </div>
+
+                        <router-link 
+                                :to="{ name: 'checkout', params: { slug: restaurant.slug } }"
+                            >
+                                <button class="btn btn-outline-dark border-dark-subtle btn-warning rounded-pill px-4">
+                                    Vai al checkout
+                                </button>
+                        </router-link>
+                        
                     </div>
 
                 </div>
 
             </div>
 
+            <div class="row">
+
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3 mb-4 d-flex" v-for="menu_item in restaurant.menu_items.filter(item => item.is_visible)" :key="menu_item.id">
+
+                    <div id="menuitem" class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
+
+                        <img :src="menu_item.image" class="rounded-circle border border-dark-subtle border-1 shadow-sm" :alt="menu_item.item_name">
+
+                        <div class="card-body text-center">
+                            <h6 class="card-title mb-2 fw-bold">
+                                {{ menu_item.item_name }}
+                            </h6>
+                            <p class="mb-2">
+                                {{ menu_item.description }}
+                            </p>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-evenly mb-2">
+                            <div class="badge rounded-pill text-bg-warning">
+                                {{ menu_item.price }} € 
+                            </div>
+
+                            <button class="add-to-cart"
+                                @click="addToCart(menu_item)"
+                                :class="{ 'add-to-cart': true, 'added': menu_item.isAdded }"
+                                :disabled="menu_item.isAdded"
+                            >
+                                <div class="default">Aggiungi</div>
+                                <div class="cart">
+                                    <div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                </div>
+                                <div class="dots"></div>
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
         </div>
     </div>
 
 </template>
 
 <style lang="scss" scoped>
+
     @use '../assets/scss/main.scss' as *;
-    @import "bootstrap/scss/bootstrap";
+    // @import "bootstrap/scss/bootstrap";
+
+    #cards-container{
+        background-color: rgb(255, 246, 235);
+    }
 
     h1{
-    margin-bottom: 100px;
+        margin-bottom: 100px;
     }
     .col-md-6{
         .card{
@@ -316,15 +326,15 @@
         }
     }
     .quantity-button{
-    width: 25px;
-    height: 25px;
-    border-radius: 100%;
-    line-height: 10px;
+        width: 25px;
+        height: 25px;
+        border-radius: 100%;
+        line-height: 10px;
     }
     .card{
-    box-shadow: 0 0 5px rgba(14, 14, 14, 0.2); 
-    transition: box-shadow .3s;
-    position: relative;
+        box-shadow: 0 0 5px rgba(14, 14, 14, 0.2); 
+        transition: box-shadow .3s;
+        position: relative;
 
     & img{
         width: 150px;
@@ -344,8 +354,8 @@
 
     }
     #menuitem:hover{
-    border: 1px solid rgb(255, 206, 30);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.503); 
+        border: 1px solid rgb(255, 206, 30);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.503); 
     }
 
     .add-to-cart {

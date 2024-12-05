@@ -171,7 +171,7 @@
 
     <HomeHeader />
   
-    <main id="main" class="pt-5">
+    <main id="main" class="py-5">
 
         <div class="container-sm">
 

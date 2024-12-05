@@ -21,3 +21,9 @@ main {
 .logo {
     max-width: 50px;
 }
+
+@media screen and (max-width: 768px) {
+    .offcanvas-width {
+        width: 100%;
+    }
+}

@@ -23,7 +23,7 @@
 
     <div id="carousel-container">
 
-        <div id="text" class="container-sm py-5">
+        <div class="container-sm py-5">
             <div class="row align-items-center mt-5 text-white">
 
                 <div class="col-md-6 col-sm-12 pb-3">
@@ -51,9 +51,7 @@
             </div> 
         </div> 
 
-        <div id="deliveboo">
-            <img src="/deliveboo_bg.png" alt="deliveboo">
-        </div>
+        <img id="deliveboo" src="/deliveboo_bg.png" alt="deliveboo">
 
         <div id="carouselExample" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
 
@@ -64,36 +62,43 @@
                     class="d-block w-100"
                     alt="hamburger">
                 </div>
+
                 <div class="carousel-item">
                     <img src="/public/piatti/pizza.jpg"
                     class="d-block w-100 rotate-y"
                     alt="pizza">
                 </div>
+
                 <div class="carousel-item">
                     <img src="/public/piatti/tacos.jpg"
                     class="d-block w-100"
                     alt="tacos">
                 </div>
+
                 <div class="carousel-item">
                     <img src="/public/piatti/fish.jpg"
                     class="d-block w-100 rotate-y"
                     alt="fish">
                 </div>
+
                 <div class="carousel-item">
                     <img src="/public/piatti/borscht.jpg"
                     class="d-block w-100 rotate-y"
                     alt="borscht">
                 </div>
+
                 <div class="carousel-item">
                     <img src="/public/piatti/cinnamo.jpg"
                     class="d-block w-100"
                     alt="cinnamo">
                 </div>
+
                 <div class="carousel-item">
                     <img src="/public/piatti/bruschetta.jpg"
                     class="d-block w-100"
                     alt="bruschetta">
                 </div>
+
                 <div class="carousel-item">
                     <img src="/public/piatti/sushi.jpg"
                     class="d-block w-100"
@@ -134,27 +139,14 @@
         z-index: -1;
       }
 
-      #text{
-        position: absolute;
-        left: 10%
-      }
-
       & #deliveboo{
-          position: absolute;
-          position: relative;
-          z-index: -2;
-          height: 100%;
-          top: 0;
-          left:0;
-
-          img{
             position: absolute;
+            z-index: -2;
             width: 100%;
-            object-fit: cover;
-            object-position: center;
             bottom: 0;
             left:0;
-          }
+            object-fit: cover;
+            object-position: center;
         }
 
       & #carouselExample{
@@ -186,5 +178,5 @@
         }
       }
     }
-  }
+    }
 </style>
