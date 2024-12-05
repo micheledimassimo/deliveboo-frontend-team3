@@ -1,12 +1,11 @@
 <script>
-    // axios
     import axios from 'axios';
 
     import HomeHeader from './HomeHeader.vue';
     
     export default {
-      data() {
-        return { 
+        data() {
+            return { 
                 restaurants:[],
                 typologies:[],
                 selectedTypologies:[],
@@ -65,19 +64,19 @@
             },
             prevSlide() {
                 if (this.isChanging || this.currentSlideTypologies === 0) return; 
-                this.isChanging = true;
-    
-                this.currentSlideTypologies--;
+                    this.isChanging = true;
+
+                    this.currentSlideTypologies--;
                 
                 setTimeout(() => {
-                this.isChanging = false; 
+                    this.isChanging = false; 
                 }, 500); 
             },
             nextSlide() {
                 if (this.isChanging || this.currentSlideTypologies === this.groupedTypologies.length - 1) return; 
-                this.isChanging = true;
+                    this.isChanging = true;
                 
-                this.currentSlideTypologies++;
+                    this.currentSlideTypologies++;
                 
                 setTimeout(() => {
                 this.isChanging = false;
@@ -87,12 +86,12 @@
                 this.getRestaurants();
             },
             toggleAllTypologies() {
-            if (this.selectAll) {
-                this.selectedTypologies = this.typologies.map(t => t.typology_name);
-            } else {
-                this.selectedTypologies = [];
-            }
-            this.filterByTypology();
+                if (this.selectAll) {
+                    this.selectedTypologies = this.typologies.map(t => t.typology_name);
+                } else {
+                    this.selectedTypologies = [];
+                }
+                this.filterByTypology();
             },
             ToPrevPage() {
                 this.clickedButton = true;
@@ -177,32 +176,26 @@
         <div class="container-sm">
 
             <div class="mb-5">
-                <h3>Seleziona le <span class="text-warning">Tipologie</span> del Ristorante</h3>
+                <h3>
+                    Seleziona le <span class="text-warning">Tipologie</span> del Ristorante
+                </h3>
 
-                <!-- Carosello Tipologie -->
                 <div id="typologyCarousel" class="carousel slide d-flex align-items-center mb-4">
                     
-                    <!-- Controllo del carosello tipologie btn-prev -->
                     <div class="w-25 text-end pt-3">
-
                         <button 
-                        
-                        class="btn btn-outline-dark border-dark-subtle text-warning mx-2 rounded-pill" 
-                        type="button" 
-                        data-bs-target="#typologyCarousel" 
-                        data-bs-slide="prev"
-                        :disabled="currentSlideTypologies === 0 || isChanging"
-                        @click="prevSlide"
-                    >
-                    <i class="fa-solid fa-chevron-left"></i>
-                    </button>
-
+                            class="btn btn-outline-dark border-dark-subtle text-warning mx-2 rounded-pill" 
+                            type="button" 
+                            data-bs-target="#typologyCarousel" 
+                            data-bs-slide="prev"
+                            :disabled="currentSlideTypologies === 0 || isChanging"
+                            @click="prevSlide"
+                        >
+                        <i class="fa-solid fa-chevron-left"></i>
+                        </button>
                     </div>
                     
-                    <!--Visualizzazione carosello tipologie-->
-
                     <div class="carousel-inner w-50">
-                        <!-- Dividi le tipologie in gruppi da 6 per slide -->
                         <div 
                             v-for="(group, index) in groupedTypologies" 
                             :key="index" 
@@ -238,11 +231,8 @@
                         </div>
                     </div>
 
-                    <!-- Controllo del carosello tipologie btn-next -->
                     <div class="w-25 text-start pt-3">
-
                         <button 
-                     
                             class="btn btn-outline-dark border-dark-subtle text-warning mx-2 rounded-pill" 
                             type="button" 
                             data-bs-target="#typologyCarousel" 
@@ -256,7 +246,6 @@
                     
                 </div>
 
-                <!-- reset filtri solo se > 0 -->
                 <button 
                     class="btn btn-outline-dark border-dark-subtle text-warning rounded-pill" 
                     @click="clearSelectedTypologies"
@@ -270,7 +259,6 @@
 
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-5 d-flex" v-for="restaurant in restaurants" :key="restaurant.id">
 
-                    <!-- shadow-sm -->
                     <div class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
                         <img class="card-img-top rounded rounded-top-5" :src="restaurant.img" :alt="restaurant.restaurant_name">
 
@@ -296,9 +284,7 @@
 
             </div>
 
-            <!-- bottoni pagine precedenti e successive -->
             <div>
-
                 <div class="d-flex justify-content-center" v-if="restaurants && restaurants.length > 0">
                     <div >
                         <button @click="ToPrevPage()"
@@ -319,20 +305,19 @@
                 <div v-else class="mt-4">
                     <h3 class="text-center">Non ci sono
                         <span class="text-warning">Ristoranti</span>  disponibili con le 
-                        <span class="text-warning">Tipologie</span> selezionate</h3>
+                        <span class="text-warning">Tipologie</span> selezionate
+                    </h3>
                 </div>
-                
             </div>
 
         </div>
         
     </main>
+    
 </template>
 
 <style lang="scss" scoped>
-//  @use '../../assets/scss/main.scss' as *;
   @use '../assets/scss/main.scss' as *;
-  // Import all of Bootstrap's CSS
   @import "bootstrap/scss/bootstrap";
 
   .card{

@@ -12,10 +12,10 @@
             }
         },
         mounted() {
-            this.setupAutoRefresh(); //carica il refresh dopo tot tempo
+            this.setupAutoRefresh();
             this.getSingleRestaurant();
             this.loadCart();
-            this.checkCartExpiry(); // Controlla se il carrello è scaduto all'avvio
+            this.checkCartExpiry();
         },
         computed: {
             cartTotal() {
@@ -41,7 +41,7 @@
                                     menu_item.image = `http://127.0.0.1:8000/storage/${menu_item.image}`;
                                 }
                             } else {
-                                menu_item.image = this.src; // Use the placeholder if no image exists
+                                menu_item.image = this.src;
                             }
                             menu_item.isAdded = false;
                         });
@@ -76,7 +76,7 @@
                 }, 2000);
 
                 this.saveCart();
-                this.saveCartTimestamp(); // Aggiorna il timestamp ogni volta che il carrello cambia
+                this.saveCartTimestamp();
             },
             increaseQuantity(item) {
                 item.quantity += 1;
@@ -110,7 +110,7 @@
             },
             saveCartTimestamp() {
                 const restaurantSlug = this.$route.params.slug;
-                const timestamp = new Date().getTime(); // Salva il timestamp corrente
+                const timestamp = new Date().getTime();
                 localStorage.setItem(`cart_timestamp_${restaurantSlug}`, timestamp);
             },
             checkCartExpiry() {
@@ -120,8 +120,7 @@
                     const currentTime = new Date().getTime();
                     const elapsedTime = currentTime - savedTimestamp;
 
-                    // Controlla se è passata più di un'ora
-                    if (elapsedTime > 7200000) { // 3600000 ms = 1 ora
+                    if (elapsedTime > 7200000) { 
                         this.cart = [];
                         localStorage.removeItem(`cart_${restaurantSlug}`);
                         localStorage.removeItem(`cart_timestamp_${restaurantSlug}`);
@@ -130,116 +129,51 @@
                 }
             },
             setupAutoRefresh() {
-                const refreshInterval = 7201000; // 2 ora in millisecondi
+                const refreshInterval = 7201000;
                 setTimeout(() => {
-                    location.reload(); // Ricarica la pagina
+                    location.reload();
                 }, refreshInterval);
             },
         }
     }
 </script>
 
-
 <template>
 
-    <!-- navbar -->
     <header>
 
-    <!-- Navbar breakpoint dispositivi desktop -->
-    <div class="container-sm">
+        <div class="container-sm">
 
-        <nav class="navbar navbar-expand-lg my-1">
+            <nav class="navbar navbar-expand-lg my-1">
 
-            <div class="collapse navbar-collapse d-flex justify-content-between">
+                <div class="collapse navbar-collapse d-flex justify-content-between">
 
-                <router-link class="navbar-brand d-flex align-items-center" to="/">
-                    <img class="logo me-2" src="/public/DeliveBoo.png" alt="Deliveboo">
-                    Delive<strong class="text-warning">Boo</strong>
-                </router-link>
+                    <router-link class="navbar-brand d-flex align-items-center" to="/">
+                        <img class="logo me-2" src="/public/DeliveBoo.png" alt="Deliveboo">
+                        Delive<strong class="text-warning">Boo</strong>
+                    </router-link>
 
-                <button type="button"
-                        class="btn btn-outline-dark border-dark-subtle position-relative px-4 rounded-pill"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasWithBothOptions"
-                        aria-controls="offcanvasWithBothOptions">
+                    <button type="button"
+                            class="btn btn-outline-dark border-dark-subtle position-relative px-4 rounded-pill"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasWithBothOptions"
+                            aria-controls="offcanvasWithBothOptions">
 
-                        <i class="fa-solid fa-cart-shopping text-warning me-2"></i>
-                        <span class="d-sm-none d-lg-inline-block">Carrello</span>
-                        <span v-if="this.cart.length>0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-black">
-                            {{ cartCount }}
-                        </span>
-                </button>
-
-            </div>
-
-        </nav>
-
-    </div>
-
-    <!-- Navbar breakpoint dispositivi mobile -->
-    <!-- <div class="container-sm d-block d-md-none">
-
-        <nav class="navbar navbar-expand-lg">
-            
-            <div class="collapse navbar-collapse d-flex justify-content-between">
-
-                <a class="navbar-brand d-flex align-items-center" href="#">
-                    <img class="logo me-2" src="/public/DeliveBoo.png" alt="Deliveboo">
-                    <span class="fs-5"> Delive<strong class="text-warning">Boo</strong> </span>
-                </a>
-
-                <button class="btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                    <i class="fa-solid fa-bars fa-2x text-warning"></i>
-                </button>
-
-                <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                    
-                    <div class="offcanvas-header pt-4">
-                        <h5 class="offcanvas-title" id="offcanvasRightLabel">
-                        <span class="fs-5"> Delive<strong class="text-warning">Boo</strong> </span>
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-
-                    <div class="offcanvas-body">
-                        <a class="nav-link" href="http://127.0.0.1:8000/login">
-                            Dashoboard o accedi 
-                        </a>
-                        <div>
-                            <hr class="text-warning">
-                        </div>
-
-                        <div class="text-warning">
-                            <a class="nav-link mt-3" href="#">
-                            Chi Siamo
-                            </a>
-                            <a class="nav-link mt-3" href="#">
-                                Contatti
-                            </a>
-                            <a class="nav-link mt-3" href="#">
-                                Informativa sulla privacy
-                            </a>
-                            <a class="nav-link mt-3" href="#">
-                                Partner
-                            </a>
-                            <a class="nav-link mt-3" href="#">
-                                FAQ
-                            </a>
-                        </div>
-
-                    </div>
+                            <i class="fa-solid fa-cart-shopping text-warning me-2"></i>
+                            <span class="d-sm-none d-lg-inline-block">Carrello</span>
+                            <span v-if="this.cart.length>0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-black">
+                                {{ cartCount }}
+                            </span>
+                    </button>
 
                 </div>
 
-            </div>
+            </nav>
 
-        </nav>
-
-    </div> -->
+        </div>
 
     </header>
 
-    <!-- main -->
     <div class="container mt-5" v-if="restaurant != null">
         <div class="d-flex justify-content-between">
             <h1>
@@ -247,12 +181,13 @@
             </h1>
         </div>
 
-        <!-- carrello -->
         <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
             
             <div class="offcanvas-header">
-              <h4 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Carrello</h4>
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <h4 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
+                    Carrello
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
 
             <div class="offcanvas-body">
@@ -269,16 +204,14 @@
                 <div v-else>
                     <div class="mb-4">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="(item, index) in cart" :key="index">
-                                
-                                <div>
 
+                            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="(item, index) in cart" :key="index">
+                                <div>
                                     <strong>{{ item.item_name }}</strong>
                                     <br>
                                     <small> {{ item.price }} € </small>
                                     <br>
                                     Totale: <strong> {{ (item.price * item.quantity).toFixed(2) }} € </strong>
-
                                 </div>
 
                                 <div class="d-flex align-items-center">
@@ -294,14 +227,19 @@
 
                                 </div>
                             </li>
+
                         </ul>
                     </div>
 
                     <hr>
 
                     <div class="d-flex justify-content-between align-items-center my-3">
-                        <h5>Totale:</h5>
-                        <h5 class="text-end">{{ cartTotal }} €</h5>
+                        <h5>
+                            Totale:
+                        </h5>
+                        <h5 class="text-end">
+                            {{ cartTotal }} €
+                        </h5>
                     </div>
 
                     <router-link 
@@ -313,10 +251,11 @@
                     </router-link>
                     
                 </div>
+
             </div>
+
         </div>
 
-        <!-- card piatti -->
         <div class="row">
 
             <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3 mb-4 d-flex" v-for="menu_item in restaurant.menu_items.filter(item => item.is_visible)" :key="menu_item.id">
@@ -326,8 +265,12 @@
                     <img :src="menu_item.image" class="rounded-circle border border-dark-subtle border-1 shadow-sm" :alt="menu_item.item_name">
 
                     <div class="card-body text-center">
-                        <h6 class="card-title mb-2 fw-bold">{{ menu_item.item_name }}</h6>
-                        <p class="mb-2">{{ menu_item.description }}</p>
+                        <h6 class="card-title mb-2 fw-bold">
+                            {{ menu_item.item_name }}
+                        </h6>
+                        <p class="mb-2">
+                            {{ menu_item.description }}
+                        </p>
                     </div>
 
                     <div class="d-flex align-items-center justify-content-evenly mb-2">
@@ -361,9 +304,7 @@
 </template>
 
 <style lang="scss" scoped>
-    //  @use '../../assets/scss/main.scss' as *;
     @use '../assets/scss/main.scss' as *;
-    // Import all of Bootstrap's CSS
     @import "bootstrap/scss/bootstrap";
 
     h1{
@@ -407,7 +348,6 @@
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.503); 
     }
 
-    // cart
     .add-to-cart {
         --color: #000000;
         --icon: var(--color);

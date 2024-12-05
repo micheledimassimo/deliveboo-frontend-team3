@@ -1,114 +1,110 @@
 <script>
 
-import HomeNavbar from './HomeNavbar.vue';
+    import HomeNavbar from './HomeNavbar.vue';
 
-export default {
-  data() {
-    return { 
-      title: 'Quanto è buono DeliveBoo!',
-      message: 'Vivi la ricchezza della vita attraverso ogni delizioso boccone, assapora il gusto che rende ogni momento davvero memorabile.',
-      button: 'Fai un ordine',
+    export default {
+        data() {
+            return { 
+            title: 'Quanto è buono DeliveBoo!',
+            message: 'Vivi la ricchezza della vita attraverso ogni delizioso boccone, assapora il gusto che rende ogni momento davvero memorabile.',
+            button: 'Fai un ordine',
+            }
+        },
+        components: {
+            HomeNavbar,
+        },
     }
-  },
-  components: {
-    HomeNavbar,
-  },
-}
+
 </script>
 
 <template>
 
-  <HomeNavbar />
+    <HomeNavbar />
 
-  <div id="carousel-container">
+    <div id="carousel-container">
 
-    <!-- testi -->
-    <div id="text" class="container-sm py-5">
+        <div id="text" class="container-sm py-5">
+            <div class="row align-items-center mt-5 text-white">
 
-      <div class="row align-items-center mt-5 text-white">
+                <div class="col-md-6 col-sm-12 pb-3">
 
-        <div class="col-md-6 col-sm-12 pb-3">
+                    <h2 class="mb-0 fst-italic fw-lighter">
+                        Quanto è buono
+                    </h2>
 
-          <h2 class="mb-0 fst-italic fw-lighter">
-            Quanto è buono
-          </h2>
+                    <h1 class="mb-4 mt-0">
+                        Delive<span class="text-warning">Boo</span>
+                    </h1>
 
-          <h1 class="mb-4 mt-0">
-            Delive<span class="text-warning">Boo</span>
-          </h1>
+                    <h4 class="mb-5 fw-lighter">
+                        {{ message }}
+                    </h4>
 
-          <h4 class="mb-5 fw-lighter">
-            {{ message }}
-          </h4>
+                    <button class="btn btn-outline-warning rounded-pill px-4" type="submit">
+                        <a class="nav-link" href="#main">
+                            {{ button }}
+                        </a>
+                    </button>
+                    
+                </div>
 
-          <button class="btn btn-outline-warning rounded-pill px-4" type="submit">
-              <a class="nav-link" href="#main">
-                  {{ button }}
-              </a>
-          </button>
-          
+            </div> 
+        </div> 
+
+        <div id="deliveboo">
+            <img src="/deliveboo_bg.png" alt="deliveboo">
         </div>
 
-      </div>
-        
-    </div> 
+        <div id="carouselExample" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
 
-    <!-- deliveboo -->
-    <div id="deliveboo">
-      <img src="/deliveboo_bg.png" alt="deliveboo">
-    </div>
+            <div class="carousel-inner">
 
-    <!-- carosello -->
-    <div id="carouselExample" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
+                <div class="carousel-item active">
+                    <img src="/public/piatti/burger.jpg"
+                    class="d-block w-100"
+                    alt="hamburger">
+                </div>
+                <div class="carousel-item">
+                    <img src="/public/piatti/pizza.jpg"
+                    class="d-block w-100 rotate-y"
+                    alt="pizza">
+                </div>
+                <div class="carousel-item">
+                    <img src="/public/piatti/tacos.jpg"
+                    class="d-block w-100"
+                    alt="tacos">
+                </div>
+                <div class="carousel-item">
+                    <img src="/public/piatti/fish.jpg"
+                    class="d-block w-100 rotate-y"
+                    alt="fish">
+                </div>
+                <div class="carousel-item">
+                    <img src="/public/piatti/borscht.jpg"
+                    class="d-block w-100 rotate-y"
+                    alt="borscht">
+                </div>
+                <div class="carousel-item">
+                    <img src="/public/piatti/cinnamo.jpg"
+                    class="d-block w-100"
+                    alt="cinnamo">
+                </div>
+                <div class="carousel-item">
+                    <img src="/public/piatti/bruschetta.jpg"
+                    class="d-block w-100"
+                    alt="bruschetta">
+                </div>
+                <div class="carousel-item">
+                    <img src="/public/piatti/sushi.jpg"
+                    class="d-block w-100"
+                    alt="sushi">
+                </div>
 
-      <div class="carousel-inner">
+            </div>
 
-        <div class="carousel-item active">
-          <img src="/public/piatti/burger.jpg"
-          class="d-block w-100"
-          alt="hamburger">
         </div>
-        <div class="carousel-item">
-          <img src="/public/piatti/pizza.jpg"
-            class="d-block w-100 rotate-y"
-            alt="pizza">
-        </div>
-        <div class="carousel-item">
-          <img src="/public/piatti/tacos.jpg"
-            class="d-block w-100"
-            alt="tacos">
-        </div>
-        <div class="carousel-item">
-          <img src="/public/piatti/fish.jpg"
-            class="d-block w-100 rotate-y"
-            alt="fish">
-        </div>
-        <div class="carousel-item">
-          <img src="/public/piatti/borscht.jpg"
-            class="d-block w-100 rotate-y"
-            alt="borscht">
-        </div>
-        <div class="carousel-item">
-          <img src="/public/piatti/cinnamo.jpg"
-            class="d-block w-100"
-            alt="cinnamo">
-        </div>
-        <div class="carousel-item">
-          <img src="/public/piatti/bruschetta.jpg"
-            class="d-block w-100"
-            alt="bruschetta">
-        </div>
-        <div class="carousel-item">
-          <img src="/public/piatti/sushi.jpg"
-            class="d-block w-100"
-            alt="sushi">
-        </div>
-
-      </div>
 
     </div>
-
-  </div>
 
 </template>
 
