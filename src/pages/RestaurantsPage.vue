@@ -259,7 +259,7 @@
 
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-5 d-flex" v-for="restaurant in restaurants" :key="restaurant.id">
 
-                    <div class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
+                    <div class="card rounded-top-5 p-2 align-self-stretch flex-grow-1 mx-0">
                         <img class="card-img-top rounded rounded-top-5" :src="restaurant.img" :alt="restaurant.restaurant_name">
 
                         <div class="card-body text-center">

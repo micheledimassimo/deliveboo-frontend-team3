@@ -264,7 +264,7 @@
 
                 <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3 mb-4 d-flex" v-for="menu_item in restaurant.menu_items.filter(item => item.is_visible)" :key="menu_item.id">
 
-                    <div id="menuitem" class="card rounded-top-5 p-2 align-self-stretch flex-grow-1">
+                    <div id="menuitem" class="card rounded-top-5 p-2 align-self-stretch flex-grow-1 mx-0">
 
                         <img :src="menu_item.image" class="rounded-circle border border-dark-subtle border-1 shadow-sm" :alt="menu_item.item_name">
 
