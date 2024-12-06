@@ -224,7 +224,7 @@
 
             <div class="row">
 
-                <div class="col-12 col-lg-7 mb-sm-4 mb-lg-0">
+                <div class="col-12 col-lg-7 mb-4 mb-lg-0">
                     <div class="card shadow-sm border-0">
 
                         <div class="d-flex align-items-center card-header">
