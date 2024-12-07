@@ -259,7 +259,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="customer_number" class="form-label">Numero di Telefono</label>
-                                        <input type="text" v-model="newOrder.customer_number" class="form-control" id="customer_number" minlength="10" maxlength="15" placeholder="Inserisci il tuo numero di telefono" required />
+                                        <input type="text" v-model="newOrder.customer_number" class="form-control" id="customer_number" minlength="10" maxlength="18" placeholder="Inserisci il tuo numero di telefono" required />
                                     </div>
                                 </div>
 
