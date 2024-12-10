@@ -15,5 +15,15 @@
     APP
 */
 main {
-  text-align: center;
+    text-align: center;
+}
+
+.logo {
+    max-width: 50px;
+}
+
+@media screen and (max-width: 768px) {
+    .offcanvas-width {
+        width: 100%;
+    }
 }
