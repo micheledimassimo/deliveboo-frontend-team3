@@ -1,5 +1,4 @@
-# Vue 3 + Vite
-
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+Benvenuti su DeliveBoo
+- Se hai un ristorante o un'attività registrati per consegnare al cliente. Con un form di registrazione verranno salvati i tuoi dati e quelli della tua attività, successivamente potrai creare modificare ed   eliminare i prodotti che l'utente (guest) potrà ordinare e ricevere a casa.
+- L'utente guest invece può scegliere il ristorante che preferisce, oppure cercarlo per categoria/e di prodotti che vende. Una volta scelto può consultare il relativo menù. Una volta scelto aggiunge i        prodotti che desidera ricevere, popolando il carrello. Lì può anche modificare l'ordine che sta effettuando, con aggiunta e rimozione di elementi. Quando è sicuro dell'ordine, procede compilando un         piccolo form che registra l'indirizzo di consegna e i dati del cliente e procede con il pagamento. Verrà poi inviato l'ordine e il ristoratore potrà vedere i corrispettivi ordini.
+<img width="1893" height="991" alt="Screenshot 2024-12-09 alle 12 15 21" src="https://github.com/user-attachments/assets/584381a8-bc06-44ca-9c14-fe3a29e47422" />
